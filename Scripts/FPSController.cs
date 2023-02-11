@@ -5,22 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
-    public Camera playerCamera;
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float walkSpeed = 6f;
+    [SerializeField] private float crawlSpeed = 2.5f;
+    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float jumpPower = 7f;
+    [SerializeField] private float gravity = 10f;
+    [SerializeField] private bool haveMap = false;
 
-
-    public float lookSpeed = 2f;
-    public float lookXLimit = 45f;
-
+    [SerializeField] private float lookSpeed = 2f;
+    [SerializeField] private float lookXLimit = 45f;
+    [SerializeField] private bool canMove = true;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
-
-    public bool canMove = true;
-
 
     CharacterController characterController;
     void Start()
@@ -32,13 +30,67 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
+        #region Handle Map
+        bool seeMap = Input.GetKey(KeyCode.Tab);
+        if (seeMap && haveMap)
+        {
+            Debug.Log("Opening Map.");
+        }
+        else (Input.GetKeyUp(KeyCode.Tab))
+        {
+            Debug.Log("You dont have a map.");
+        }
 
-        #region Handles Movment
+        #endregion
+
+        #region Handle Abilities and weapons
+        bool noWeapon = Input.GetKey(KeyCode.F1);    
+        bool useBow = Input.GetKey(KeyCode.F2);    
+        bool useSword = Input.GetKey(KeyCode.F3);    
+        bool useShield = Input.GetKey(KeyCode.F4);    
+        bool useSpell1 = Input.GetKey(KeyCode.Q);    
+        bool useSpell2 = Input.GetKey(KeyCode.E);    
+
+        if (noWeapon)
+        {
+            Debug.Log("Handed Combat");
+        }
+        if (useBow)
+        {
+            Debug.Log("Using Bow");
+        }
+        if (useSword)
+        {
+            Debug.Log("Using Sword");
+        }
+        if (useShield)
+        {
+            Debug.Log("Using Shield");
+        }
+        if (useSpell1)
+        {
+            Debug.Log("Avada Kevadra");
+        }
+        if (useSpell2)
+        {
+            Debug.Log("Avocado Acabadooo");
+        }
+
+        #endregion
+
+        #region Handles Movement
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isCrawling = Input.GetKey(KeyCode.LeftCtrl);
+        if (isCrawling)
+        {
+            Debug.Log("Agachado");
+        }
+        
+        // se pueden cambiar por swich case para contemplar que este agachado (crawl)
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
@@ -60,7 +112,6 @@ public class FPSController : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-
         #endregion
 
         #region Handles Rotation

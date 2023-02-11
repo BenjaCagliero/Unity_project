@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum enemyStates
 {
-    Idle,
-    Pursuit,
+    Observe,
+    Stalk,
 }
 
 public class EnemyBehaviour : MonoBehaviour
@@ -20,7 +20,6 @@ public class EnemyBehaviour : MonoBehaviour
     private void Start()
     {
 
-        //transform.rotation = Quaternion.Euler(initialRotation);
     }
 
     private void lookPlayer()
@@ -40,12 +39,12 @@ public class EnemyBehaviour : MonoBehaviour
 
         switch(currentState)
         {
-            case enemyStates.Idle:
-                ExecuteIdle();
+            case enemyStates.Observe:
+                ExecuteObserve();
                 break;
 
-            case enemyStates.Pursuit:
-                ExecutePersuit();
+            case enemyStates.Stalk:
+                ExecuteStalk();
                 break;
 
             default:
@@ -59,11 +58,11 @@ public class EnemyBehaviour : MonoBehaviour
     {
         SetCurrentState();
     }
-    private void ExecuteIdle()
+    private void ExecuteObserve()
     {
         stalkLookPlayer(); 
     }
-    private void ExecutePersuit()
+    private void ExecuteStalk()
     {
         var vectorToPlayer = player.position - transform.position;
         var distance = vectorToPlayer.magnitude;

@@ -35,8 +35,7 @@ public class FPSController : MonoBehaviour
         if (seeMap && haveMap)
         {
             Debug.Log("Opening Map.");
-        }
-        else (Input.GetKeyUp(KeyCode.Tab))
+        }else (Input.GetKeyUp(KeyCode.Tab))
         {
             Debug.Log("You dont have a map.");
         }

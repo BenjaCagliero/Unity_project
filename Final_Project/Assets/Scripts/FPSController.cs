@@ -15,6 +15,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private float lookXLimit = 45f;
+    [SerializeField] private float sprintTimer;
+    [SerializeField] private bool canSprint = true;
     [SerializeField] private bool canMove = true;
 
     Vector3 moveDirection = Vector3.zero;
@@ -26,21 +28,45 @@ public class FPSController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
+    } 
 
     void Update()
     {
         MapHandling();
-
         WeaponAndAbility();
-
         MovementControl();
-
         JumpControl();
-
+        HandleSprintTimer();
         RotationControl();
     }
-    
+
+
+    #region SrintCoolDown
+    void SprintCoolDown()
+    {
+        if (sprintTimer <= 0)
+        {
+            canSprint = false;
+        }
+        else
+        {
+            canSprint = true;
+        }
+    }
+
+    void HandleSprintTimer()
+    {
+        if (canSprint)
+        {
+            sprintTimer -= Time.deltaTime;
+        }
+        else
+        {
+            sprintTimer = 2;
+        }
+    }
+
+    #endregion
 
     #region Handle Map
     void MapHandling()
@@ -72,8 +98,8 @@ public class FPSController : MonoBehaviour
         }
 
         // se pueden cambiar por swich case para contemplar que este agachado (crawl)
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
     }

@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
+    [SerializeField] private Rigidbody m_player;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float crawlSpeed = 2.5f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
-    [SerializeField] private float gravity = 10f;
     [SerializeField] private bool haveMap = false;
 
     [SerializeField] private float lookSpeed = 2f;
@@ -30,17 +30,87 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
-        #region Handle Map
+        MapHandling();
+
+        WeaponAndAbility();
+
+        MovementControl();
+
+        JumpControl();
+
+        RotationControl();
+    }
+    
+
+    #region Handle Map
+    void MapHandling()
+    {
+        
         bool seeMap = Input.GetKey(KeyCode.Tab);
         if (seeMap && haveMap)
         {
             Debug.Log("Opening Map.");
         }
+
+
         
+    }
+    #endregion
 
-        #endregion
+    #region Handles Movement
+    void MovementControl()
+    {
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Vector3 right = transform.TransformDirection(Vector3.right);
 
-        #region Handle Abilities and weapons
+        // Press Left Shift to run
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isCrawling = Input.GetKey(KeyCode.LeftControl);
+        if (isCrawling)
+        {
+            Debug.Log("Agachado");
+        }
+
+        // se pueden cambiar por swich case para contemplar que este agachado (crawl)
+        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float movementDirectionY = moveDirection.y;
+        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+    }
+    #endregion
+
+    #region Handles Jumping
+    void JumpControl ()
+    {
+        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        {
+            AddJumpForce(jumpPower);
+        }
+    }
+    void AddJumpForce(float force)
+    {
+        m_player.AddForce(Vector3.up * force);
+    }
+    #endregion
+
+    #region Handles Rotation
+    void RotationControl()
+    {
+        characterController.Move(moveDirection * Time.deltaTime);
+
+        if (canMove)
+        {
+            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+    }
+    #endregion
+
+    #region Handle Abilities and weapons
+    void WeaponAndAbility()
+    {
         bool noWeapon = Input.GetKey(KeyCode.F1);
         bool useBow = Input.GetKey(KeyCode.F2);
         bool useSword = Input.GetKey(KeyCode.F3);
@@ -72,56 +142,6 @@ public class FPSController : MonoBehaviour
         {
             Debug.Log("Avocado Acabadooo");
         }
-
-        #endregion
-
-        #region Handles Movement
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        bool isCrawling = Input.GetKey(KeyCode.LeftControl);
-        if (isCrawling)
-        {
-            Debug.Log("Agachado");
-        }
-
-        // se pueden cambiar por swich case para contemplar que este agachado (crawl)
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        #endregion
-
-        #region Handles Jumping
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
-
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
-        #endregion
-
-        #region Handles Rotation
-        characterController.Move(moveDirection * Time.deltaTime);
-
-        if (canMove)
-        {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
-
-        #endregion
     }
+    #endregion
 }

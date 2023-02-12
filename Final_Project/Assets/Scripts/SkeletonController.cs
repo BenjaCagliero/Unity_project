@@ -1,22 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
-public enum StalkerBehaviour
+public enum SkeletonBehaviour
 {
     Chasing,
-    Glaring,
     Attacking,
     Approaching,
     Idle
-
 }
-public class StalkerController : MonoBehaviour
-{
 
-    [SerializeField] private StalkerBehaviour behaviour;
+public class SkeletonController : MonoBehaviour
+{
+    [SerializeField] private SkeletonBehaviour behaviour;
     [SerializeField] private Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
@@ -24,48 +20,41 @@ public class StalkerController : MonoBehaviour
     [SerializeField] private float chaseDistance;
     [SerializeField] private float approachDistance;
     [SerializeField] private float idleDistance;
+
     void Update()
     {
         var vectorToTarget = target.position - transform.position;
         float distanceToTarget = target.position.magnitude;
         if (distanceToTarget <= attackDistance)
         {
-            behaviour = StalkerBehaviour.Attacking;
+            behaviour = SkeletonBehaviour.Attacking;
         }
         else if ((distanceToTarget >= attackDistance) && (distanceToTarget <= chaseDistance))
         {
-           behaviour= StalkerBehaviour.Chasing;
-        }
-        else if ((distanceToTarget >= chaseDistance) && (distanceToTarget <= approachDistance))
-        {
-            behaviour= StalkerBehaviour.Glaring;
+            behaviour = SkeletonBehaviour.Chasing;
         }
         else if ((distanceToTarget >= approachDistance) && (distanceToTarget <= idleDistance))
         {
-            behaviour= StalkerBehaviour.Approaching;
+            behaviour = SkeletonBehaviour.Approaching;
         }
-        else if (distanceToTarget >= idleDistance)
+        else if(distanceToTarget >= idleDistance)
         {
-            behaviour = StalkerBehaviour.Idle;
+            behaviour = SkeletonBehaviour.Idle;
         }
-
         switch (behaviour)
         {
-            case StalkerBehaviour.Chasing:
+            case SkeletonBehaviour.Chasing:
                 Aim();
                 MoveEneny();
                 break;
-            case StalkerBehaviour.Approaching: 
+            case SkeletonBehaviour.Approaching:
                 Aim();
                 MoveEneny();
                 break;
-            case StalkerBehaviour.Attacking:
+            case SkeletonBehaviour.Attacking:
                 Attack();
                 break;
-            case StalkerBehaviour.Glaring:
-                Aim();
-                break;
-            case StalkerBehaviour.Idle:
+            case SkeletonBehaviour.Idle:
                 Idle();
                 break;
         }
@@ -77,19 +66,18 @@ public class StalkerController : MonoBehaviour
 
         var vectorToObjective = targetPos - stalkerPos;
         var aiming = Quaternion.LookRotation(vectorToObjective);
-        transform.rotation =Quaternion.Lerp(transform.rotation, aiming, Time.deltaTime * rotationSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, aiming, Time.deltaTime * rotationSpeed);
     }
     void MoveEneny()
     {
         transform.position = Vector3.Lerp(transform.position, transform.forward, Time.deltaTime * speed);
     }
     void Attack()
-    { 
+    {
 
     }
     void Idle()
     {
 
     }
-    
 }

@@ -9,6 +9,7 @@
 /Final_Project/Builds/
 /Final_Project/Logs/
 /Final_Project/MemoryCaptures/
+/Final_Project/UserSettings/Layouts/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/Final_Project/Assets/**/*.meta

@@ -6,7 +6,6 @@ using UnityEngine;
 public class FPSController : MonoBehaviour
 {
     [SerializeField] private Rigidbody m_player;
-    [SerializeField] private Camera playerCamera;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float crawlSpeed = 2.5f;
     [SerializeField] private float runSpeed = 10f;
@@ -119,7 +118,7 @@ public class FPSController : MonoBehaviour
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+           
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }

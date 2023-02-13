@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
     [SerializeField] private Rigidbody m_player;
@@ -15,20 +15,19 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private float lookXLimit = 45f;
-    [SerializeField] private float sprintTimer;
+    [SerializeField] private float sprintTimer = Mathf.Clamp(0f, -3f, 5f);
     [SerializeField] private bool canSprint = true;
     [SerializeField] private bool canMove = true;
-
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
     CharacterController characterController;
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        //characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    } 
+    }
 
     void Update()
     {
@@ -36,42 +35,14 @@ public class FPSController : MonoBehaviour
         WeaponAndAbility();
         MovementControl();
         JumpControl();
-        HandleSprintTimer();
         RotationControl();
     }
 
 
-    #region SrintCoolDown
-    void SprintCoolDown()
-    {
-        if (sprintTimer <= 0)
-        {
-            canSprint = false;
-        }
-        else
-        {
-            canSprint = true;
-        }
-    }
-
-    void HandleSprintTimer()
-    {
-        if (canSprint)
-        {
-            sprintTimer -= Time.deltaTime;
-        }
-        else
-        {
-            sprintTimer = 2;
-        }
-    }
-
-    #endregion
-
     #region Handle Map
     void MapHandling()
     {
-        
+
         bool seeMap = Input.GetKey(KeyCode.Tab);
         if (seeMap && haveMap)
         {
@@ -79,7 +50,7 @@ public class FPSController : MonoBehaviour
         }
 
 
-        
+
     }
     #endregion
 
@@ -92,23 +63,43 @@ public class FPSController : MonoBehaviour
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         bool isCrawling = Input.GetKey(KeyCode.LeftControl);
+
+
         if (isCrawling)
         {
             Debug.Log("Agachado");
+        }
+        if (isRunning)
+        {
+            sprintTimer -= Time.deltaTime;
+        }
+        else
+        {
+            sprintTimer += Time.deltaTime;
+        }
+
+        //Cooldown Sprint
+        if (sprintTimer <= 0)
+        {
+            canSprint = false;
+        }
+        else
+        {
+            canSprint = true;
         }
 
         // se pueden cambiar por swich case para contemplar que este agachado (crawl)
         float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        m_player.velocity = moveDirection;
     }
     #endregion
 
     #region Handles Jumping
-    void JumpControl ()
+    void JumpControl()
     {
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (Input.GetButton("Jump") && canMove && true)
         {
             AddJumpForce(jumpPower);
         }
@@ -122,7 +113,7 @@ public class FPSController : MonoBehaviour
     #region Handles Rotation
     void RotationControl()
     {
-        characterController.Move(moveDirection * Time.deltaTime);
+        //characterController.Move(moveDirection * Time.deltaTime);
 
         if (canMove)
         {
@@ -142,7 +133,7 @@ public class FPSController : MonoBehaviour
         bool useSword = Input.GetKey(KeyCode.F3);
         bool useShield = Input.GetKey(KeyCode.F4);
         bool useSpell1 = Input.GetKey(KeyCode.Q);
-        bool useSpell2 = Input.GetKey(KeyCode.E);
+        bool teleport = Input.GetKeyDown(KeyCode.E);
 
         if (noWeapon)
         {
@@ -164,9 +155,9 @@ public class FPSController : MonoBehaviour
         {
             Debug.Log("Avada Kevadra");
         }
-        if (useSpell2)
+        if (teleport)
         {
-            Debug.Log("Avocado Acabadooo");
+            Debug.Log("Avocado Acabadooo ... c va");
         }
     }
     #endregion

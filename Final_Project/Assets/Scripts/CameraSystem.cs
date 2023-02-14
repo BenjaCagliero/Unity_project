@@ -9,6 +9,11 @@ public class CameraSystem : MonoBehaviour
     public GameObject Camera2;
     public GameObject Camera3;
 
+    private void Start()
+    {
+        CameraOne();
+    }
+
 
     void Update()
     {

@@ -1,5 +1,5 @@
 ### :construction_worker: Warning: This is a work in progress :construction: :construction: :construction: 
-# First demo information: [Important = Main changes are in branch Scenes]
+# First demo information:
 ### --> Player <--
 - Introducing a 3d model of our main character.
 - Script for controlling the character.

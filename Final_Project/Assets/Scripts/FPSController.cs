@@ -5,18 +5,21 @@ using UnityEngine;
 //[RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody m_player;
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float crawlSpeed = 2.5f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
     [SerializeField] private bool haveMap = false;
-
+    [SerializeField] private float evadeTimer;
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private float lookXLimit = 45f;
     [SerializeField] private float sprintTimer = Mathf.Clamp(0f, -3f, 5f);
     [SerializeField] private bool canSprint = true;
     [SerializeField] private bool canMove = true;
+    [SerializeField] private bool evadeNow;
+    [SerializeField] private bool canEvade = true;
+    [SerializeField] private float evadeDuration = 0.2f;
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
@@ -70,11 +73,17 @@ public class FPSController : MonoBehaviour
         }
         if (isRunning)
         {
-            sprintTimer -= Time.deltaTime;
+            if (sprintTimer >= 0)
+            {
+                sprintTimer -= Time.deltaTime;
+            }
         }
         else
         {
-            sprintTimer += Time.deltaTime;
+            if (sprintTimer < 5)
+            {
+                sprintTimer += Time.deltaTime;
+            }
         }
 
         //Cooldown Sprint
@@ -88,24 +97,25 @@ public class FPSController : MonoBehaviour
         }
 
         // se pueden cambiar por swich case para contemplar que este agachado (crawl)
-        float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedX = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-        m_player.velocity = moveDirection;
+        moveDirection = (forward * curSpeedX) + (right * curSpeedY) +new Vector3 (0 , _rb.velocity.y , 0);
+        _rb.velocity = moveDirection;
     }
     #endregion
 
     #region Handles Jumping
     void JumpControl()
     {
-        if (Input.GetButton("Jump") && canMove && true)
+        if (Input.GetButtonDown("Jump") && canMove && true)
         {
             AddJumpForce(jumpPower);
         }
     }
     void AddJumpForce(float force)
     {
-        m_player.AddForce(Vector3.up * force);
+        _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+
     }
     #endregion
 
@@ -132,7 +142,7 @@ public class FPSController : MonoBehaviour
         bool useSword = Input.GetKey(KeyCode.F3);
         bool useShield = Input.GetKey(KeyCode.F4);
         bool useSpell1 = Input.GetKey(KeyCode.Q);
-        bool teleport = Input.GetKeyDown(KeyCode.E);
+        bool evade = Input.GetKeyDown(KeyCode.E);
 
         if (noWeapon)
         {
@@ -154,10 +164,42 @@ public class FPSController : MonoBehaviour
         {
             Debug.Log("Avada Kevadra");
         }
-        if (teleport)
+        if (evade)
         {
-            Debug.Log("Avocado Acabadooo ... c va");
+            if (canEvade)
+            {
+                Debug.Log("Avocado Acabadooo ... c va");
+                evadeNow = true;
+            }
+            
         }
+        if (evadeNow)
+        {
+            canEvade = false;
+            if (evadeDuration > 0)
+            {
+                evadeDuration -= Time.deltaTime;
+
+            }
+            else
+            {
+                evadeDuration = 0.2f;
+                evadeNow = false;
+            }
+        }
+        if (!canEvade)
+        {
+            if (evadeTimer > 0)
+            {
+                evadeTimer -= Time.deltaTime;
+            }
+            else
+            {
+                evadeTimer = 3;
+                canEvade = true;
+            }
+        }
+
     }
     #endregion
 }

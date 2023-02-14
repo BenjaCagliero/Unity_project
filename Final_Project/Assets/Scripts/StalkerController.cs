@@ -17,6 +17,7 @@ public class StalkerController : MonoBehaviour
 {
 
     [SerializeField] private StalkerBehaviour behaviour;
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
@@ -81,7 +82,7 @@ public class StalkerController : MonoBehaviour
     }
     void MoveEneny()
     {
-        transform.position = Vector3.Lerp(transform.position, transform.forward, Time.deltaTime * speed);
+        _rb.velocity = transform.forward * speed;
     }
     void Attack()
     { 

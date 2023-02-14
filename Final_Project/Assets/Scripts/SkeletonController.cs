@@ -13,6 +13,7 @@ public enum SkeletonBehaviour
 public class SkeletonController : MonoBehaviour
 {
     [SerializeField] private SkeletonBehaviour behaviour;
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
@@ -70,7 +71,7 @@ public class SkeletonController : MonoBehaviour
     }
     void MoveEneny()
     {
-        transform.position = Vector3.Lerp(transform.position, transform.forward, Time.deltaTime * speed);
+        _rb.velocity =  transform.forward * speed;
     }
     void Attack()
     {

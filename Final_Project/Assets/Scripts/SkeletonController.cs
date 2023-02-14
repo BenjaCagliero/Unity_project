@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum SkeletonBehaviour
 {
@@ -14,27 +15,27 @@ public class SkeletonController : MonoBehaviour
 {
     [SerializeField] private SkeletonBehaviour behaviour;
     [SerializeField] private Rigidbody _rb;
-    [SerializeField] private Transform target;
+    [SerializeField] private GameObject target;
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float attackDistance;
     [SerializeField] private float chaseDistance;
     [SerializeField] private float approachDistance;
     [SerializeField] private float idleDistance;
-
+    [SerializeField] private float distanceToTarget;
     void Update()
     {
-        var vectorToTarget = target.position - transform.position;
-        float distanceToTarget = target.position.magnitude;
+        var vectorToTarget = target.transform.position - transform.position;
+        distanceToTarget = vectorToTarget.magnitude;
         if (distanceToTarget <= attackDistance)
         {
             behaviour = SkeletonBehaviour.Attacking;
         }
-        else if ((distanceToTarget >= attackDistance) && (distanceToTarget <= chaseDistance))
+        else if ((distanceToTarget > attackDistance) && (distanceToTarget <= chaseDistance))
         {
             behaviour = SkeletonBehaviour.Chasing;
         }
-        else if ((distanceToTarget >= approachDistance) && (distanceToTarget <= idleDistance))
+        else if ((distanceToTarget > approachDistance) && (distanceToTarget < idleDistance))
         {
             behaviour = SkeletonBehaviour.Approaching;
         }
@@ -63,7 +64,7 @@ public class SkeletonController : MonoBehaviour
     void Aim()
     {
         var stalkerPos = new Vector3(transform.position.x, 0, transform.position.z);
-        var targetPos = new Vector3(target.position.x, 0, target.position.z);
+        var targetPos = new Vector3(target.transform.position.x, 0, target.transform.position.z);
 
         var vectorToObjective = targetPos - stalkerPos;
         var aiming = Quaternion.LookRotation(vectorToObjective);
@@ -71,7 +72,10 @@ public class SkeletonController : MonoBehaviour
     }
     void MoveEneny()
     {
-        _rb.velocity =  transform.forward * speed;
+        var forward = transform.TransformDirection(Vector3.forward);
+        Vector3 moveDirection = (forward * speed) + new Vector3(0, _rb.velocity.y, 0);
+        _rb.velocity = moveDirection;
+
     }
     void Attack()
     {

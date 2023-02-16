@@ -20,6 +20,9 @@ public class FPSController : MonoBehaviour
     [SerializeField] private bool evadeNow;
     [SerializeField] private bool canEvade = true;
     [SerializeField] private float evadeDuration = 0.2f;
+    [SerializeField] private LayerMask floor;
+
+
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
@@ -107,7 +110,10 @@ public class FPSController : MonoBehaviour
     #region Handles Jumping
     void JumpControl()
     {
-        if (Input.GetButtonDown("Jump") && canMove && true)
+        RaycastHit hit;
+        Ray ray;
+
+        if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.1f, floor))
         {
             AddJumpForce(jumpPower);
         }

@@ -61,6 +61,7 @@ public class StalkerController : MonoBehaviour
                 MoveEneny();
                 break;
             case StalkerBehaviour.Attacking:
+                Aim();
                 Attack();
                 break;
             case StalkerBehaviour.Glaring:

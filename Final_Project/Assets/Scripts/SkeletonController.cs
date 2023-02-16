@@ -55,6 +55,7 @@ public class SkeletonController : MonoBehaviour
                 break;
             case SkeletonBehaviour.Attacking:
                 Attack();
+                Aim();
                 break;
             case SkeletonBehaviour.Idle:
                 Idle();

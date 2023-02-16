@@ -23,10 +23,18 @@ public class SkeletonController : MonoBehaviour
     [SerializeField] private float approachDistance;
     [SerializeField] private float idleDistance;
     [SerializeField] private float distanceToTarget;
+    [SerializeField] private LayerMask player;
+    [SerializeField] private LayerMask floor;
+
+
     void Update()
     {
         var vectorToTarget = target.transform.position - transform.position;
         distanceToTarget = vectorToTarget.magnitude;
+
+        RaycastHit viewing;
+        Ray ray;
+
         if (distanceToTarget <= attackDistance)
         {
             behaviour = SkeletonBehaviour.Attacking;
@@ -47,11 +55,17 @@ public class SkeletonController : MonoBehaviour
         {
             case SkeletonBehaviour.Chasing:
                 Aim();
-                MoveEneny();
+                if (Physics.Raycast(transform.position, vectorToTarget.normalized, out viewing, chaseDistance, player))
+                {
+                        MoveEneny();
+                }
                 break;
             case SkeletonBehaviour.Approaching:
                 Aim();
-                MoveEneny();
+                if (Physics.Raycast(transform.position, vectorToTarget.normalized, out viewing, approachDistance, player))
+                {
+                        MoveEneny();
+                }
                 break;
             case SkeletonBehaviour.Attacking:
                 Attack();

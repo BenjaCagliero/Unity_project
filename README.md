@@ -1,11 +1,12 @@
 ### :construction_worker: Warning: This is a work in progress :construction: :construction: :construction: 
-# First demo information: [Important = Main changes are in branch Scenes]
+
+# First demo information:
 ### --> Player <--
 - Introducing a 3d model of our main character.
 - Script for controlling the character.
 - Many inputs mocked for develop his abilities in next patch.
-- Sprint and Dash ability introduced and the cooldown is handled by a timer.
-- Different cameras to watch either in 1st or 3rd view.
+- Sprint (shift) and Dash (E) ability introduced and the cooldown's are handled by timer's.
+- Different cameras to watch either in 1st or 3rd view with 1, 2 and 3 buttons.
 
 ### --> Enemies <--
 - Enemies models created

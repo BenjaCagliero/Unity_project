@@ -20,6 +20,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] private bool evadeNow;
     [SerializeField] private bool canEvade = true;
     [SerializeField] private float evadeDuration = 0.2f;
+    [SerializeField] private int evadePoints;
     [SerializeField] private LayerMask floor;
 
 
@@ -175,6 +176,7 @@ public class FPSController : MonoBehaviour
             if (canEvade)
             {
                 Debug.Log("Avocado Acabadooo ... c va");
+                GameManager.instance.addDash(evadePoints);
                 evadeNow = true;
             }
             

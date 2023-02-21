@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour
 
     //public static int skeletonMaxHealth;
     //public static int dummyMinHealth;
-    private int _score;
-    private int _dashes;
-    public int Score => _score;
-    public int TotalDashes => _dashes;
+    [SerializeField]private int _score;
+    [SerializeField]private int _dashes;
+    //public int Score => _score;
+    //public int TotalDashes => _dashes;
 
     public void addScore (int scoreTotal)
     {
@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
+        _score = 0;
+        _dashes = 0;
+
         if (instance != null)
         {
             Destroy(gameObject);

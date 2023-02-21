@@ -22,6 +22,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] private float evadeDuration = 0.2f;
     [SerializeField] private int evadePoints;
     [SerializeField] private LayerMask floor;
+    [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
 
 
     Vector3 moveDirection = Vector3.zero;
@@ -33,6 +34,12 @@ public class FPSController : MonoBehaviour
         //characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        attacks.Add(1,"Handed Combat") ;
+        attacks.Add(2, "Using Bow");
+        attacks.Add(3, "Using Sword");
+        attacks.Add(4, "Using Shield");
+        attacks.Add(5, "Avada Kevadra");
+        attacks.Add(6, "Avocado Acabadooo ... c va");
     }
 
     void Update()
@@ -150,32 +157,40 @@ public class FPSController : MonoBehaviour
         bool useShield = Input.GetKey(KeyCode.F4);
         bool useSpell1 = Input.GetKey(KeyCode.Q);
         bool evade = Input.GetKeyDown(KeyCode.E);
+        string text = "";
+
 
         if (noWeapon)
         {
-            Debug.Log("Handed Combat");
+            text = attacks[1].ToUpper();
+            Debug.Log(text);
         }
         if (useBow)
         {
-            Debug.Log("Using Bow");
+            text = attacks[2].ToUpper();
+            Debug.Log(text);
         }
         if (useSword)
         {
-            Debug.Log("Using Sword");
+            text = attacks[3].ToUpper();
+            Debug.Log(text);
         }
         if (useShield)
         {
-            Debug.Log("Using Shield");
+            text = attacks[4].ToUpper();
+            Debug.Log(text);
         }
         if (useSpell1)
         {
-            Debug.Log("Avada Kevadra");
+            text = attacks[5].ToUpper();
+            Debug.Log(text);
         }
         if (evade)
         {
             if (canEvade)
             {
-                Debug.Log("Avocado Acabadooo ... c va");
+                text = attacks[6].ToUpper();
+                Debug.Log(text);
                 GameManager.instance.addDash(evadePoints);
                 evadeNow = true;
             }

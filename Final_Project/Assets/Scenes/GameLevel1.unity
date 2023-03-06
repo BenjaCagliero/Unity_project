@@ -4368,6 +4368,10 @@ MonoBehaviour:
   StaminaBar: {fileID: 1644254103}
   CanDash: {fileID: 910704820}
   sprintTimer: 0
+  evadeNow: 0
+  canEvade: 1
+  evadeDuration: 0.2
+  evadeTimer: 0
 --- !u!4 &205679630 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 442534, guid: 6c7e01809ee343847a660faeaa78d718,
@@ -49013,6 +49017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0e3472332d4d048910f5c9d9a1f4f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: 100
   _score: 0
   _dashes: 0
 --- !u!4 &1799747622

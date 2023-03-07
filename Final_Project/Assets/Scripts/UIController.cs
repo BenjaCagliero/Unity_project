@@ -10,11 +10,12 @@ public class UIController : MonoBehaviour
     public Slider HPBar;
     public Slider StaminaBar;
     public Toggle CanDash;
+    private GameManager gameManager;
+
     [SerializeField] private float sprintTimer = Mathf.Clamp(0f, 0f, 5f);
     private float staminaPercentage;
-    private GameManager gameManager;
     [SerializeField] private bool evadeNow;
-    [SerializeField] private bool canEvade = true;
+    public bool canEvade;
     [SerializeField] private float evadeDuration = 0.2f;
     [SerializeField] private float evadeTimer;
 
@@ -24,6 +25,7 @@ public class UIController : MonoBehaviour
         HPBar.value = 100f;
         StaminaBar.value = 100f;
         CanDash.isOn = true;
+        canEvade= true;
 
         gameManager = FindObjectOfType<GameManager>();
     }

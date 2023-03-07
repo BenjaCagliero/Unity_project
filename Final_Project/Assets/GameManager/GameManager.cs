@@ -5,7 +5,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [Range (0f, 100f)]
+    public float playerHealth = 100f;
+    public void TakeDamage(float amount)
+    {
+        playerHealth -= amount;
 
+        if (playerHealth <= 0)
+        {
+            Debug.Log("Game over");
+        }
+    }
     //public static int skeletonMaxHealth;
     //public static int dummyMinHealth;
     [SerializeField]private int _score;

@@ -16133,7 +16133,7 @@ GameObject:
   - component: {fileID: 605916569}
   - component: {fileID: 605916568}
   m_Layer: 0
-  m_Name: FPCamera (1)
+  m_Name: FPCamera
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16191,7 +16191,7 @@ Transform:
   m_Children:
   - {fileID: 1740397518}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &608154619 stripped
 Transform:
@@ -37247,7 +37247,7 @@ GameObject:
   - component: {fileID: 1379806121}
   - component: {fileID: 1379806120}
   m_Layer: 0
-  m_Name: ShoulderRight
+  m_Name: ShoulderRightCamera
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37305,7 +37305,7 @@ Transform:
   m_Children:
   - {fileID: 1332205165}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1380545633 stripped
 Transform:
@@ -41576,7 +41576,7 @@ GameObject:
   - component: {fileID: 1548850087}
   - component: {fileID: 1548850086}
   m_Layer: 0
-  m_Name: SoulderLeft
+  m_Name: SoulderLeftCamera
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41651,7 +41651,7 @@ Transform:
   m_Children:
   - {fileID: 1429187256}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1550257670 stripped
 Transform:
@@ -41912,7 +41912,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 22}
 --- !u!1 &1560785572 stripped
 GameObject:
@@ -46074,7 +46074,7 @@ Transform:
   - {fileID: 566293228}
   - {fileID: 2093131784}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1711458570
 GameObject:
@@ -58457,7 +58457,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -356, y: 208}
+  m_AnchoredPosition: {x: -743, y: 469}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2137343961

@@ -136,7 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8562574759533716926}
   - component: {fileID: 8624302936577693937}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Moustache4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -758,7 +758,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
-  m_CookingOptions: 30
+  m_CookingOptions: 0
   m_Mesh: {fileID: 3281332579200457787, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
 --- !u!1 &962577954048991239
 GameObject:
@@ -1178,7 +1178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7759268704078305479}
   - component: {fileID: 3625118026711328856}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Eyelashes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1447,7 +1447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2304378332660153478}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Moustaches
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1701,7 +1701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1669417697738007371}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2031,7 +2031,7 @@ GameObject:
   - component: {fileID: 7991689518495841538}
   - component: {fileID: 6318134000555460836}
   - component: {fileID: 6747581521374507018}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3114,7 +3114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 229023729369179881}
   - component: {fileID: 4437152202413352025}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Beard6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3264,14 +3264,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5643722210722394393}
   - component: {fileID: 7108399422665939068}
-  - component: {fileID: 6747581522127704501}
   - component: {fileID: 6747581522127704499}
   - component: {fileID: 6747581522127704500}
-  - component: {fileID: 5918686524786159814}
   - component: {fileID: -50402958248975677}
+  - component: {fileID: 203633466}
+  - component: {fileID: 203633476}
   m_Layer: 6
   m_Name: HumanMale_Character_FREE 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3314,24 +3314,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!143 &6747581522127704501
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4979107476036610979}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &6747581522127704499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3344,9 +3326,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea307f6ab15f0648a07814ad88481e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 0}
+  _rb: {fileID: 203633466}
   walkSpeed: 6
-  crawlSpeed: 2.5
   runSpeed: 10
   jumpPower: 5
   haveMap: 0
@@ -3358,7 +3339,9 @@ MonoBehaviour:
   canMove: 1
   evadeNow: 0
   canEvade: 1
+  canDash: 0
   evadeDuration: 0.2
+  evadePoints: 1
   floor:
     serializedVersion: 2
     m_Bits: 8
@@ -3377,22 +3360,6 @@ MonoBehaviour:
   Camera1: {fileID: 0}
   Camera2: {fileID: 0}
   Camera3: {fileID: 0}
---- !u!54 &5918686524786159814
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4979107476036610979}
-  serializedVersion: 2
-  m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!114 &-50402958248975677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3405,6 +3372,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4043865ca8bab54bb3a9f52d0b2f755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 0}
+--- !u!54 &203633466
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979107476036610979}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 2
+--- !u!114 &203633476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979107476036610979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f76e8c22d9b274429e1c0ceecaea7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 0}
+  StaminaBar: {fileID: 0}
+  CanDashTg: {fileID: 0}
+  fPSController: {fileID: 6747581522127704499}
+  sprintTimer: 0
 --- !u!1 &5003780533909188637
 GameObject:
   m_ObjectHideFlags: 0
@@ -3541,7 +3542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5377756178085806326}
   - component: {fileID: 2446496565469495463}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Eyebrows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3873,7 +3874,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7800235662909127159}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4006,7 +4007,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2803722958147181342}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Beards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4453,8 +4454,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5668755154126372270}
-  m_Layer: 6
-  m_Name: GameObject
+  m_Layer: 8
+  m_Name: HeadPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4890,7 +4891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7176458929781273949}
   - component: {fileID: 5193005878724144320}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Hair7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5890,7 +5891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6232984641062445719}
   - component: {fileID: 5576377787818884046}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}

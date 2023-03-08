@@ -7,7 +7,6 @@ public class FPSController : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
-    [SerializeField] private float crawlSpeed = 2.5f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
     [SerializeField] private bool haveMap = false;
@@ -19,6 +18,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] private bool canMove = true;
     [SerializeField] private bool evadeNow;
     [SerializeField] private bool canEvade = true;
+    public bool canDash;
     [SerializeField] private float evadeDuration = 0.2f;
     [SerializeField] private int evadePoints;
     [SerializeField] private LayerMask floor;
@@ -75,13 +75,7 @@ public class FPSController : MonoBehaviour
 
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        bool isCrawling = Input.GetKey(KeyCode.LeftControl);
 
-
-        if (isCrawling)
-        {
-            Debug.Log("Agachado");
-        }
         if (isRunning)
         {
             if (sprintTimer >= 0)
@@ -112,6 +106,7 @@ public class FPSController : MonoBehaviour
         float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY) +new Vector3 (0 , _rb.velocity.y , 0);
         _rb.velocity = moveDirection;
+
     }
     #endregion
 
@@ -119,7 +114,6 @@ public class FPSController : MonoBehaviour
     void JumpControl()
     {
         RaycastHit hit;
-        Ray ray;
 
         if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.1f, floor))
         {
@@ -222,7 +216,7 @@ public class FPSController : MonoBehaviour
                 canEvade = true;
             }
         }
-
+        canDash = canEvade;
     }
     #endregion
 }

@@ -9,23 +9,19 @@ public class UIController : MonoBehaviour
 
     public Slider HPBar;
     public Slider StaminaBar;
-    public Toggle CanDash;
+    public Toggle CanDashTg;
     private GameManager gameManager;
+    [SerializeField] private FPSController fPSController;
 
     [SerializeField] private float sprintTimer = Mathf.Clamp(0f, 0f, 5f);
     private float staminaPercentage;
-    [SerializeField] private bool evadeNow;
-    public bool canEvade;
-    [SerializeField] private float evadeDuration = 0.2f;
-    [SerializeField] private float evadeTimer;
 
 
     void Start()
     {
         HPBar.value = 100f;
         StaminaBar.value = 100f;
-        CanDash.isOn = true;
-        canEvade= true;
+        CanDashTg.isOn = true;
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -33,9 +29,9 @@ public class UIController : MonoBehaviour
     void Update()
     {
         Stamina();
+        Dash();
         StaminaBar.value = staminaPercentage;
         HPBar.value = gameManager.playerHealth;
-        Dash();
     }
 
     void Stamina()
@@ -61,41 +57,15 @@ public class UIController : MonoBehaviour
     }
     void Dash()
     {
-        bool evade = Input.GetKeyDown(KeyCode.E);
-        if (evade)
+        if (fPSController.canDash)
         {
-            if (canEvade)
-            {
-                evadeNow = true;
-                CanDash.isOn = false; // Desactivar el Toggle "CanDash"
-            }
+            CanDashTg.isOn = true;
         }
-        if (evadeNow)
+        else
         {
-            canEvade = false;
-            if (evadeDuration > 0)
-            {
-                evadeDuration -= Time.deltaTime;
-            }
-            else
-            {
-                evadeDuration = 0.2f;
-                evadeNow = false;
-            }
+            CanDashTg.isOn = false;
         }
-        if (!canEvade)
-        {
-            if (evadeTimer > 0)
-            {
-                evadeTimer -= Time.deltaTime;
-            }
-            else
-            {
-                evadeTimer = 3;
-                canEvade = true;
-                CanDash.isOn = true; // Reactivar el Toggle "CanDash"
-            }
-        }
+
     }
 }
 

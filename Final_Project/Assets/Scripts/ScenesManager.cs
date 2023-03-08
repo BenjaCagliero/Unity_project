@@ -10,15 +10,18 @@ public class ScenesManager : MonoBehaviour
     public string gameLevel2SceneName = "GameLevel2";
     public string gameLevel3SceneName = "GameLevel3";
 
-    private Scene mainMenuScene;
-    private Scene gameLevel1Scene;
-    private Scene gameLevel2Scene;
-    private Scene gameLevel3Scene;
+    [SerializeField]private Scene mainMenuScene;
+    [SerializeField]private Scene gameLevel1Scene;
+    [SerializeField]private Scene gameLevel2Scene;
+    [SerializeField]private Scene gameLevel3Scene;
 
-    void Start()
+    void Awake()
     {
 
         SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(gameLevel3SceneName);
+        SceneManager.LoadScene(gameLevel2SceneName);
+        SceneManager.LoadScene(gameLevel1SceneName);
         SceneManager.UnloadSceneAsync(gameLevel1Scene);
         SceneManager.UnloadSceneAsync(gameLevel3Scene);
         SceneManager.UnloadSceneAsync(gameLevel2Scene);

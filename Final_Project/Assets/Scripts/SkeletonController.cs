@@ -33,7 +33,6 @@ public class SkeletonController : MonoBehaviour
         distanceToTarget = vectorToTarget.magnitude;
 
         RaycastHit viewing;
-        Ray ray;
 
         if (distanceToTarget <= attackDistance)
         {

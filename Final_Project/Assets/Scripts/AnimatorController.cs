@@ -10,29 +10,22 @@ public class AnimatorController : MonoBehaviour
     int isBackWardHash;
     int isStrafeLHash;
     int isStrafeRHash;
-    int isRollFHash;
-    int isRollBHash;
     public UIController uiController;
 
-    public bool CanRoll()
-    {
-        bool canRoll = uiController.canEvade;
-        return canRoll;
-    }
+
     
 
 
     void Start()
     {
         animator= GetComponent<Animator>();
-        Debug.Log(animator);
+        //Debug.Log(animator);
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
         isBackWardHash = Animator.StringToHash("isBackwards");
         isStrafeLHash = Animator.StringToHash("isStrafeL");
         isStrafeRHash = Animator.StringToHash("isStrafeR");
-        isRollFHash = Animator.StringToHash("isRollF");
-        isRollBHash = Animator.StringToHash("isRollB");
+
 
     }
 
@@ -45,8 +38,7 @@ public class AnimatorController : MonoBehaviour
         bool isBackward = animator.GetBool(isBackWardHash);
         bool isStrafeL = animator.GetBool(isStrafeLHash);
         bool isStrafeR = animator.GetBool(isStrafeRHash); 
-        bool isRollF = animator.GetBool(isRollFHash);
-        bool isRollB = animator.GetBool(isRollBHash);
+
         
 
 
@@ -56,27 +48,7 @@ public class AnimatorController : MonoBehaviour
         bool isBackwardPressed = Input.GetKey(KeyCode.S);
         bool strafeL = Input.GetKey(KeyCode.A);
         bool strafeR = Input.GetKey(KeyCode.D);
-        bool roll = Input.GetKey(KeyCode.E);
-
-
-        //condicion de roll F y B respectivamente, Sí esta moviendose hacia adelante o hacia atras
-        if (!isRollF && roll && forwardPressed && CanRoll())
-        {
-            animator.SetBool(isRollFHash, true);
-        }
-        if (isRollF && !roll&& forwardPressed)
-        {
-            animator.SetBool(isRollFHash, false);
-        }
-        if (!isRollB && roll && isBackwardPressed && CanRoll())
-        {
-            animator.SetBool(isRollBHash, true);
-        }
-        if (isRollB && !roll && isBackwardPressed)
-        {
-            animator.SetBool(isRollBHash, false);
-        }
-
+      
 
 
         //condicion de strafe en L y R respectivamente

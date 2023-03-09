@@ -7,7 +7,6 @@
 - Many inputs mocked for develop his abilities in next patch.
 - Sprint (shift) and Dash (E) ability introduced and the cooldown's are handled by timer's.
 - Different cameras to watch either in 1st or 3rd view with 1, 2 and 3 buttons.
-- Implemented UI with Health and Stamina Bars and a visual reference for the Dash activation
 
 ### --> Enemies <--
 - Enemies models created

@@ -29,6 +29,13 @@ public class SkeletonController : MonoBehaviour
 
     void Update()
     {
+        
+
+
+
+
+
+
         var vectorToTarget = target.transform.position - transform.position;
         distanceToTarget = vectorToTarget.magnitude;
 
@@ -73,8 +80,11 @@ public class SkeletonController : MonoBehaviour
             case SkeletonBehaviour.Idle:
                 Idle();
                 break;
+
         }
+
     }
+
     void Aim()
     {
         var stalkerPos = new Vector3(transform.position.x, 0, transform.position.z);

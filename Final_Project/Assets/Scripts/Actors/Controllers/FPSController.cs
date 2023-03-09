@@ -1,9 +1,10 @@
+using Assets.Scripts.Actors.Controllers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //[RequireComponent(typeof(CharacterController))]
-public class FPSController : MonoBehaviour
+public class FPSController : Player
 {
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
@@ -44,6 +45,7 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
+        CheckHealth();
         MapHandling();
         WeaponAndAbility();
         MovementControl();
@@ -151,8 +153,14 @@ public class FPSController : MonoBehaviour
         bool useShield = Input.GetKey(KeyCode.F4);
         bool useSpell1 = Input.GetKey(KeyCode.Q);
         bool evade = Input.GetKeyDown(KeyCode.E);
+        bool heal = Input.GetKeyDown(KeyCode.H);
         string text = "";
 
+        if(heal)
+        {
+            Debug.Log("healing");
+            Heal(GetHealAmount());
+        }
 
         if (noWeapon)
         {

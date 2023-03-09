@@ -309,10 +309,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8953eba78b87946b2ed33d5af58996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviour: 0
+  health: 0
+  maxHealth: 0
   _rb: {fileID: 816313190863144139}
-  target: {fileID: 0}
   speed: 5
+  behaviour: 0
+  target: {fileID: 4979107476036610979, guid: f89a69210ba091c49aa89171de962a74, type: 3}
   rotationSpeed: 5
   attackDistance: 1
   chaseDistance: 20

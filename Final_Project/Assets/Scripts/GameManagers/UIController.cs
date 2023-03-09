@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour
         Stamina();
         Dash();
         StaminaBar.value = staminaPercentage;
-        HPBar.value = gameManager.playerHealth;
+        HPBar.value = fPSController.GetHealth();
     }
 
     void Stamina()

@@ -51,6 +51,10 @@ public class FPSController : Player
         MovementControl();
         JumpControl();
         RotationControl();
+        if (GetHealth() <= 0)
+        {
+            KillEntity();
+        }
     }
 
 
@@ -154,12 +158,19 @@ public class FPSController : Player
         bool useSpell1 = Input.GetKey(KeyCode.Q);
         bool evade = Input.GetKeyDown(KeyCode.E);
         bool heal = Input.GetKeyDown(KeyCode.H);
+        bool damage = Input.GetKeyDown(KeyCode.J);
+
         string text = "";
 
         if(heal)
         {
             Debug.Log("healing");
             Heal(GetHealAmount());
+        }
+        if(damage)
+        {
+            Debug.Log("Damaging");
+            Damage(GetDamageAmount());
         }
 
         if (noWeapon)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.52011657, g: 0.42873645, b: 0.14086683, a: 1}
+  m_IndirectSpecularColor: {r: 0.5202917, g: 0.4288624, b: 0.14071584, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -41954,7 +41954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559730152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.93, y: 45.796, z: 136.8}
+  m_LocalPosition: {x: 94.54, y: 45.776, z: 140.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42793,9 +42793,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2322746700992722555, guid: 4d39bcd57cb95e940b557398ab6043e6,
         type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -2322746700992722555, guid: 4d39bcd57cb95e940b557398ab6043e6,
+        type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 203633460}
+    - target: {fileID: -2322746700992722555, guid: 4d39bcd57cb95e940b557398ab6043e6,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1588168018677385088, guid: 4d39bcd57cb95e940b557398ab6043e6,
         type: 3}
       propertyPath: m_Name
@@ -59568,6 +59578,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747581522127704499, guid: f89a69210ba091c49aa89171de962a74,
+        type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747581522127704499, guid: f89a69210ba091c49aa89171de962a74,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6747581522127704500, guid: f89a69210ba091c49aa89171de962a74,
         type: 3}

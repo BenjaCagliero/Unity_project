@@ -3326,6 +3326,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea307f6ab15f0648a07814ad88481e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  healAmount: 15
+  damageAmount: 5
   _rb: {fileID: 203633466}
   walkSpeed: 6
   runSpeed: 10

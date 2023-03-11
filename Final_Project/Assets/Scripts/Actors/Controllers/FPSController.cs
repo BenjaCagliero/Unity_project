@@ -1,4 +1,5 @@
 using Assets.Scripts.Actors.Controllers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ using UnityEngine;
 //[RequireComponent(typeof(CharacterController))]
 public class FPSController : Player
 {
-    [SerializeField] private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
@@ -24,7 +24,18 @@ public class FPSController : Player
     [SerializeField] private int evadePoints;
     [SerializeField] private LayerMask floor;
     [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
+    private bool jumping;
 
+    public event Action PFront;
+    public event Action PFrontR;
+    public event Action PFrontL;
+    public event Action PBack;
+    public event Action PBackR;
+    public event Action PBackL;
+    public event Action PRight;
+    public event Action PLeft;
+    public event Action PFJump;
+    public event Action PBJump; 
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -107,11 +118,61 @@ public class FPSController : Player
             canSprint = true;
         }
 
-        // se pueden cambiar por swich case para contemplar que este agachado (crawl)
-        float curSpeedX = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY) +new Vector3 (0 , _rb.velocity.y , 0);
-        _rb.velocity = moveDirection;
+
+        float curSpeedZ = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
+        float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+        if (curSpeedZ != 0 || curSpeedX != 0)
+        {
+            GetComponent<Rigidbody>().velocity = moveDirection;
+        }
+        if (curSpeedZ > 0 && curSpeedX == 0)
+        {
+            if (!jumping)
+            {
+                PFront.Invoke();
+            }
+            else
+            {
+                PFJump.Invoke();
+            }
+        }
+        else if (curSpeedZ > 0 && curSpeedX < 0)
+        {
+            PFrontL.Invoke();
+        }
+        else if (curSpeedZ > 0 && curSpeedX > 0)
+        {
+            PFrontR.Invoke();
+        }
+        else if (curSpeedZ < 0 && curSpeedX == 0)
+        {
+            if (!jumping)
+            {
+                PBack.Invoke();
+            }
+            else
+            {
+                PFJump.Invoke();
+            }
+        }
+        else if (curSpeedZ < 0 && curSpeedX < 0)
+        {
+            PBackL.Invoke();
+        }
+        else if (curSpeedZ < 0 && curSpeedX > 0)
+        {
+            PBackR.Invoke();
+        }
+        else if (curSpeedZ == 0 && curSpeedX > 0)
+        {
+            PLeft.Invoke();
+        }
+        else if (curSpeedZ == 0 && curSpeedX < 0)
+        {
+            PRight.Invoke();
+        }
+
 
     }
     #endregion
@@ -121,14 +182,19 @@ public class FPSController : Player
     {
         RaycastHit hit;
 
-        if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.1f, floor))
+        if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
         {
             AddJumpForce(jumpPower);
+            jumping= true;
+        }
+        else
+        {
+            jumping= false;
         }
     }
     void AddJumpForce(float force)
     {
-        _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(Vector3.up * force, ForceMode.VelocityChange);
 
     }
     #endregion

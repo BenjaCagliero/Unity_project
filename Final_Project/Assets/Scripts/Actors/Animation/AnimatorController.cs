@@ -13,7 +13,6 @@ public class AnimatorController : MonoBehaviour
     int isStrafeRHash;
     int isJumpIHash;
     int isJumpRHash;
-    public UIController uiController;
     public FPSController m_fPSController;
 
     
@@ -41,6 +40,8 @@ public class AnimatorController : MonoBehaviour
         
         m_fPSController.OnIdle += Idle;
         m_fPSController.OnPFront += Walk;
+        m_fPSController.OnPFrontL += FrontLeft;
+        m_fPSController.OnPFrontR+= FrontRight;
         m_fPSController.OnPBack += Back;
         m_fPSController.OnPLeft += StrafeL;
         m_fPSController.OnPRight += StrafeR;
@@ -48,6 +49,8 @@ public class AnimatorController : MonoBehaviour
         m_fPSController.OnPJump += JumpIdle;
         m_fPSController.OnSprintF += Run;
         m_fPSController.OnStopSprint += SRun;
+        m_fPSController.OnPBackL += BackLeft;
+        m_fPSController.OnPBackR += BackRight;
     }
 
 
@@ -67,13 +70,19 @@ public class AnimatorController : MonoBehaviour
     private void StrafeL(bool strafeL)
     {
         animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        animator.SetBool(isBackWardHash, false);
     }
 
 
     private void StrafeR(bool strafeR)
     {
         animator.SetBool(isStrafeRHash, true);
-        
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+
     }
 
 
@@ -81,7 +90,10 @@ public class AnimatorController : MonoBehaviour
     private void Walk(bool walk)
     {
         animator.SetBool(isWalkingHash, true);
-        if(animator.GetBool(isJumpRHash))
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpRHash))
         {
             animator.SetBool(isJumpRHash, false);
         }
@@ -101,9 +113,39 @@ public class AnimatorController : MonoBehaviour
     //condicion movimiento hacia atras si esta apretado S
     private void Back(bool back)
     {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
         animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
     }
-
+    private void FrontLeft(bool front)
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontRight(bool front)
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, true);
+    }
+    private void BackLeft(bool back)
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void BackRight(bool back)
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, true);
+    }
     private void Idle(bool idle)
     {
         animator.SetBool(isRunningHash, false);

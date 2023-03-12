@@ -153,7 +153,7 @@ public class FPSController : Player
             }
             else
             {
-                PFJump.Invoke();
+                PBJump.Invoke();
             }
         }
         else if (curSpeedZ < 0 && curSpeedX < 0)

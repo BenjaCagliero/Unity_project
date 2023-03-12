@@ -14,7 +14,7 @@ public class FPSController : Player
     [SerializeField] private float evadeTimer;
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private float lookXLimit = 45f;
-    [SerializeField] private float sprintTimer = Mathf.Clamp(0f, -3f, 5f);
+    [SerializeField] private float sprintTimer = 5f;
     [SerializeField] private bool canSprint = true;
     [SerializeField] private bool canMove = true;
     [SerializeField] private bool evadeNow;
@@ -25,17 +25,22 @@ public class FPSController : Player
     [SerializeField] private LayerMask floor;
     [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
     private bool jumping;
+    private bool reloadRun;
+    public event Action<bool> OnPFront;
+    public event Action<bool> OnPFrontR;
+    public event Action<bool> OnPFrontL;
+    public event Action<bool> OnPBack;
+    public event Action<bool> OnPBackR;
+    public event Action<bool> OnPBackL;
+    public event Action<bool> OnPRight;
+    public event Action<bool> OnPLeft;
+    public event Action<bool> OnPFJump;
+    public event Action<bool> OnPBJump; 
+    public event Action<bool> OnPJump; 
+    public event Action<bool> OnIdle; 
+    public event Action<bool> OnSprintF;
+    public event Action<bool> OnStopSprint;
 
-    public event Action PFront;
-    public event Action PFrontR;
-    public event Action PFrontL;
-    public event Action PBack;
-    public event Action PBackR;
-    public event Action PBackL;
-    public event Action PRight;
-    public event Action PLeft;
-    public event Action PFJump;
-    public event Action PBJump; 
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -56,12 +61,12 @@ public class FPSController : Player
 
     void Update()
     {
+        RotationControl();
         CheckHealth();
         MapHandling();
         WeaponAndAbility();
         MovementControl();
         JumpControl();
-        RotationControl();
         if (GetHealth() <= 0)
         {
             KillEntity();
@@ -97,7 +102,23 @@ public class FPSController : Player
         {
             if (sprintTimer >= 0)
             {
-                sprintTimer -= Time.deltaTime;
+                if (!reloadRun)
+                {
+                    sprintTimer -= Time.deltaTime;
+                    OnSprintF.Invoke(true);
+                }
+                else
+                { 
+                    canSprint= false;
+                    OnStopSprint.Invoke(true);
+                }
+
+            }
+            else
+            {
+                reloadRun = true;
+                canSprint= false;
+                OnStopSprint.Invoke(true);
             }
         }
         else
@@ -105,17 +126,13 @@ public class FPSController : Player
             if (sprintTimer < 5)
             {
                 sprintTimer += Time.deltaTime;
+                OnStopSprint.Invoke(true);
             }
-        }
-
-        //Cooldown Sprint
-        if (sprintTimer <= 0)
-        {
-            canSprint = false;
-        }
-        else
-        {
-            canSprint = true;
+            else if (sprintTimer >= 5) 
+            {
+                canSprint = true;
+                reloadRun = false;
+            }
         }
 
 
@@ -126,53 +143,66 @@ public class FPSController : Player
         {
             GetComponent<Rigidbody>().velocity = moveDirection;
         }
-        if (curSpeedZ > 0 && curSpeedX == 0)
+        if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
             {
-                PFront.Invoke();
+                OnPFront?.Invoke(true);
             }
             else
             {
-                PFJump.Invoke();
+                OnPFJump?.Invoke(true);
+                jumping= false;
             }
         }
-        else if (curSpeedZ > 0 && curSpeedX < 0)
+        else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
         {
-            PFrontL.Invoke();
+            OnPFrontL?.Invoke(true);
         }
-        else if (curSpeedZ > 0 && curSpeedX > 0)
+        else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
         {
-            PFrontR.Invoke();
+            OnPFrontR?.Invoke(true);
         }
-        else if (curSpeedZ < 0 && curSpeedX == 0)
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
             {
-                PBack.Invoke();
+                OnPBack?.Invoke(true);
             }
             else
             {
-                PBJump.Invoke();
+                OnPBJump?.Invoke(true);
+                jumping= false;
             }
         }
-        else if (curSpeedZ < 0 && curSpeedX < 0)
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
         {
-            PBackL.Invoke();
+            OnPBackL?.Invoke(true);
         }
-        else if (curSpeedZ < 0 && curSpeedX > 0)
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
         {
-            PBackR.Invoke();
+            OnPBackR?.Invoke(true);
         }
-        else if (curSpeedZ == 0 && curSpeedX > 0)
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") < 0)
         {
-            PLeft.Invoke();
+            OnPLeft?.Invoke(true);
         }
-        else if (curSpeedZ == 0 && curSpeedX < 0)
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") > 0)
         {
-            PRight.Invoke();
+            OnPRight?.Invoke(true);
         }
-
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
+        {
+            if (jumping)
+            {
+                OnPJump?.Invoke(true);
+                jumping= false;
+            }
+            else
+            {
+                OnIdle?.Invoke(true);
+            }
+        }
 
     }
     #endregion
@@ -182,8 +212,9 @@ public class FPSController : Player
     {
         RaycastHit hit;
 
-        if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
+        if (Input.GetButtonDown("Jump") && canMove && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
         {
+            
             AddJumpForce(jumpPower);
             jumping= true;
         }
@@ -197,6 +228,7 @@ public class FPSController : Player
         GetComponent<Rigidbody>().AddForce(Vector3.up * force, ForceMode.VelocityChange);
 
     }
+   
     #endregion
 
     #region Handles Rotation
@@ -211,6 +243,10 @@ public class FPSController : Player
            
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+    public float GetStamina()
+    {
+        return sprintTimer;
     }
     #endregion
 

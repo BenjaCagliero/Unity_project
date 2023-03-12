@@ -3330,7 +3330,6 @@ MonoBehaviour:
   maxHealth: 100
   healAmount: 15
   damageAmount: 5
-  _rb: {fileID: 203633466}
   walkSpeed: 6
   runSpeed: 10
   jumpPower: 5
@@ -3377,6 +3376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 0}
+  m_fPSController: {fileID: 6747581522127704499}
 --- !u!54 &203633466
 Rigidbody:
   m_ObjectHideFlags: 0

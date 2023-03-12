@@ -37,22 +37,7 @@ public class UIController : MonoBehaviour
     void Stamina()
     {
         // Se utiliza Input con los mismos valores para mostrar en Slider el tiempo de Stamina utilizable
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-
-        if (isRunning)
-        {
-            if (sprintTimer >= 0)
-            {
-                sprintTimer -= Time.deltaTime;
-            }
-        }
-        else
-        {
-            if (sprintTimer < 5)
-            {
-                sprintTimer += Time.deltaTime;
-            }
-        }
+        var sprintTimer = fPSController.GetStamina();
         staminaPercentage = (sprintTimer) / 5 * 100;
     }
     void Dash()

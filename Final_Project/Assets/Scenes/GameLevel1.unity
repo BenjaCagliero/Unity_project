@@ -39061,9 +39061,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1256461561}
     m_Modifications:
+    - target: {fileID: 1000010074151058, guid: e318266f60803d548a4b409b52b39d8d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013722183174, guid: e318266f60803d548a4b409b52b39d8d, type: 3}
       propertyPath: m_Name
       value: RHEF_Cave
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013722183174, guid: e318266f60803d548a4b409b52b39d8d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013812522086, guid: e318266f60803d548a4b409b52b39d8d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4000012795208846, guid: e318266f60803d548a4b409b52b39d8d, type: 3}
       propertyPath: m_RootOrder

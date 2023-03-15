@@ -1,4 +1,5 @@
 using Assets.Scripts.Actors.Controllers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ using UnityEngine;
 //[RequireComponent(typeof(CharacterController))]
 public class FPSController : Player
 {
-    [SerializeField] private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
@@ -14,7 +14,7 @@ public class FPSController : Player
     [SerializeField] private float evadeTimer;
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private float lookXLimit = 45f;
-    [SerializeField] private float sprintTimer = Mathf.Clamp(0f, -3f, 5f);
+    [SerializeField] private float sprintTimer = 5f;
     [SerializeField] private bool canSprint = true;
     [SerializeField] private bool canMove = true;
     [SerializeField] private bool evadeNow;
@@ -24,6 +24,22 @@ public class FPSController : Player
     [SerializeField] private int evadePoints;
     [SerializeField] private LayerMask floor;
     [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
+    private bool jumping;
+    private bool reloadRun;
+    public event Action<bool> OnPFront;
+    public event Action<bool> OnPFrontR;
+    public event Action<bool> OnPFrontL;
+    public event Action<bool> OnPBack;
+    public event Action<bool> OnPBackR;
+    public event Action<bool> OnPBackL;
+    public event Action<bool> OnPRight;
+    public event Action<bool> OnPLeft;
+    public event Action<bool> OnPFJump;
+    public event Action<bool> OnPBJump; 
+    public event Action<bool> OnPJump; 
+    public event Action<bool> OnIdle; 
+    public event Action<bool> OnSprintF;
+    public event Action<bool> OnStopSprint;
 
 
     Vector3 moveDirection = Vector3.zero;
@@ -45,12 +61,12 @@ public class FPSController : Player
 
     void Update()
     {
+        RotationControl();
         CheckHealth();
         MapHandling();
         WeaponAndAbility();
         MovementControl();
         JumpControl();
-        RotationControl();
         if (GetHealth() <= 0)
         {
             KillEntity();
@@ -86,7 +102,23 @@ public class FPSController : Player
         {
             if (sprintTimer >= 0)
             {
-                sprintTimer -= Time.deltaTime;
+                if (!reloadRun)
+                {
+                    sprintTimer -= Time.deltaTime;
+                    OnSprintF.Invoke(true);
+                }
+                else
+                { 
+                    canSprint= false;
+                    OnStopSprint.Invoke(true);
+                }
+
+            }
+            else
+            {
+                reloadRun = true;
+                canSprint= false;
+                OnStopSprint.Invoke(true);
             }
         }
         else
@@ -94,24 +126,83 @@ public class FPSController : Player
             if (sprintTimer < 5)
             {
                 sprintTimer += Time.deltaTime;
+                OnStopSprint.Invoke(true);
+            }
+            else if (sprintTimer >= 5) 
+            {
+                canSprint = true;
+                reloadRun = false;
             }
         }
 
-        //Cooldown Sprint
-        if (sprintTimer <= 0)
-        {
-            canSprint = false;
-        }
-        else
-        {
-            canSprint = true;
-        }
 
-        // se pueden cambiar por swich case para contemplar que este agachado (crawl)
-        float curSpeedX = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY) +new Vector3 (0 , _rb.velocity.y , 0);
-        _rb.velocity = moveDirection;
+        float curSpeedZ = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
+        float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+        if (curSpeedZ != 0 || curSpeedX != 0)
+        {
+            GetComponent<Rigidbody>().velocity = moveDirection;
+        }
+        if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") == 0)
+        {
+            if (!jumping)
+            {
+                OnPFront?.Invoke(true);
+            }
+            else
+            {
+                OnPFJump?.Invoke(true);
+                jumping= false;
+            }
+        }
+        else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
+        {
+            OnPFrontL?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
+        {
+            OnPFrontR?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0)
+        {
+            if (!jumping)
+            {
+                OnPBack?.Invoke(true);
+            }
+            else
+            {
+                OnPBJump?.Invoke(true);
+                jumping= false;
+            }
+        }
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
+        {
+            OnPBackL?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
+        {
+            OnPBackR?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") < 0)
+        {
+            OnPLeft?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") > 0)
+        {
+            OnPRight?.Invoke(true);
+        }
+        else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
+        {
+            if (jumping)
+            {
+                OnPJump?.Invoke(true);
+                jumping= false;
+            }
+            else
+            {
+                OnIdle?.Invoke(true);
+            }
+        }
 
     }
     #endregion
@@ -121,16 +212,23 @@ public class FPSController : Player
     {
         RaycastHit hit;
 
-        if (Input.GetButtonDown("Jump") && canMove && true && Physics.Raycast(transform.position,-transform.up, out hit, 0.1f, floor))
+        if (Input.GetButtonDown("Jump") && canMove && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
         {
+            
             AddJumpForce(jumpPower);
+            jumping= true;
+        }
+        else
+        {
+            jumping= false;
         }
     }
     void AddJumpForce(float force)
     {
-        _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(Vector3.up * force, ForceMode.VelocityChange);
 
     }
+   
     #endregion
 
     #region Handles Rotation
@@ -145,6 +243,10 @@ public class FPSController : Player
            
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+    public float GetStamina()
+    {
+        return sprintTimer;
     }
     #endregion
 

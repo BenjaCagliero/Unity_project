@@ -1,3 +1,4 @@
+using Assets.Scripts.Actors.Controllers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,9 @@ public class AnimatorController : MonoBehaviour
     int isBackWardHash;
     int isStrafeLHash;
     int isStrafeRHash;
-    public UIController uiController;
-
+    int isJumpIHash;
+    int isJumpRHash;
+    public FPSController m_fPSController;
 
     
 
@@ -25,82 +27,137 @@ public class AnimatorController : MonoBehaviour
         isBackWardHash = Animator.StringToHash("isBackwards");
         isStrafeLHash = Animator.StringToHash("isStrafeL");
         isStrafeRHash = Animator.StringToHash("isStrafeR");
-
-
-    }
-
-
-    void Update()
-    {
+        isJumpIHash = Animator.StringToHash("isJumpIdle");
+        isJumpRHash = Animator.StringToHash("isJumpRun");
         //booleanos para animator
         bool isRunning = animator.GetBool(isRunningHash);
         bool isWalking = animator.GetBool(isWalkingHash);
         bool isBackward = animator.GetBool(isBackWardHash);
         bool isStrafeL = animator.GetBool(isStrafeLHash);
-        bool isStrafeR = animator.GetBool(isStrafeRHash); 
-
+        bool isStrafeR = animator.GetBool(isStrafeRHash);
+        bool isJumpI = animator.GetBool(isJumpIHash);
+        bool isJumpR = animator.GetBool(isJumpRHash);
         
+        m_fPSController.OnIdle += Idle;
+        m_fPSController.OnPFront += Walk;
+        m_fPSController.OnPFrontL += FrontLeft;
+        m_fPSController.OnPFrontR+= FrontRight;
+        m_fPSController.OnPBack += Back;
+        m_fPSController.OnPLeft += StrafeL;
+        m_fPSController.OnPRight += StrafeR;
+        m_fPSController.OnPFJump += JumpR;
+        m_fPSController.OnPJump += JumpIdle;
+        m_fPSController.OnSprintF += Run;
+        m_fPSController.OnStopSprint += SRun;
+        m_fPSController.OnPBackL += BackLeft;
+        m_fPSController.OnPBackR += BackRight;
+    }
 
 
-        //booleanos para teclas
-        bool forwardPressed = Input.GetKey(KeyCode.W);
-        bool runPressed = Input.GetKey(KeyCode.LeftShift);
-        bool isBackwardPressed = Input.GetKey(KeyCode.S);
-        bool strafeL = Input.GetKey(KeyCode.A);
-        bool strafeR = Input.GetKey(KeyCode.D);
-      
+    private void JumpIdle(bool jump)
+    {
+        animator.SetBool(isJumpIHash, true);
+    }
 
 
-        //condicion de strafe en L y R respectivamente
-        if (!isStrafeL && strafeL)
-        {
+    private void JumpR(bool jumpR)
+    {
+        animator.SetBool(isJumpRHash, true);
+    }
 
-            animator.SetBool(isStrafeLHash, true);
-        }
-        if (isStrafeL && !strafeL)
-        {
-            animator.SetBool(isStrafeLHash, false);
-        }
 
-        if (!isStrafeR && strafeR)
-        {
+    //condicion de strafe en L y R respectivamente
+    private void StrafeL(bool strafeL)
+    {
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        animator.SetBool(isBackWardHash, false);
+    }
 
-            animator.SetBool(isStrafeRHash, true);
-        }
-        if (isStrafeR && !strafeR)
-        {
-            animator.SetBool(isStrafeRHash, false);
-        }
 
-        //condicion de caminar si se apreta W
-        if (!isWalking && forwardPressed)
-        {
-            
-            animator.SetBool(isWalkingHash, true);
-        }
-        if (isWalking && !forwardPressed)
-        {
-            animator.SetBool(isWalkingHash, false);
-        }
-        
-        //condicion de correr si esta el shift izq. y se esta moviendo
-        if (!isRunning && (forwardPressed && runPressed))
-        {
-            animator.SetBool(isRunningHash, true);
-        }
-        if (isRunning && (!forwardPressed || !runPressed))
-        {
-            animator.SetBool(isRunningHash, false);
-        }
+    private void StrafeR(bool strafeR)
+    {
+        animator.SetBool(isStrafeRHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
 
-        //condicion movimiento hacia atras si esta apretado S
-        if (!isBackward && isBackwardPressed)
+    }
+
+
+    //condicion de caminar si se apreta W
+    private void Walk(bool walk)
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpRHash))
         {
-            animator.SetBool(isBackWardHash, true);
-        }
-        if (isBackward && !isBackwardPressed)
-        {
-            animator.SetBool(isBackWardHash, false);
+            animator.SetBool(isJumpRHash, false);
         }
     }
+ 
+
+    //condicion de correr si esta el shift izq. y se esta moviendo
+    private void Run(bool run)
+    {
+        animator.SetBool(isRunningHash, true);
+    }
+    private void SRun(bool sRun)
+    {
+        animator.SetBool(isRunningHash, false);
+    }
+
+    //condicion movimiento hacia atras si esta apretado S
+    private void Back(bool back)
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontLeft(bool front)
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontRight(bool front)
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, true);
+    }
+    private void BackLeft(bool back)
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void BackRight(bool back)
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, true);
+    }
+    private void Idle(bool idle)
+    {
+        animator.SetBool(isRunningHash, false);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpIHash)) 
+        { 
+            animator.SetBool(isJumpIHash, false); 
+        }
+        animator.SetBool(isJumpRHash, false);
+    }
+
 }

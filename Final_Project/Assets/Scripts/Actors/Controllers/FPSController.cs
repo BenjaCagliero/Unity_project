@@ -26,20 +26,16 @@ public class FPSController : Player
     [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
     private bool jumping;
     private bool reloadRun;
-    public event Action<bool> OnPFront;
-    public event Action<bool> OnPFrontR;
-    public event Action<bool> OnPFrontL;
-    public event Action<bool> OnPBack;
-    public event Action<bool> OnPBackR;
-    public event Action<bool> OnPBackL;
-    public event Action<bool> OnPRight;
-    public event Action<bool> OnPLeft;
-    public event Action<bool> OnPFJump;
-    public event Action<bool> OnPBJump; 
-    public event Action<bool> OnPJump; 
-    public event Action<bool> OnIdle; 
-    public event Action<bool> OnSprintF;
-    public event Action<bool> OnStopSprint;
+    //Animaciones
+    Animator animator;
+    int isWalkingHash;
+    int isRunningHash;
+    int isBackWardHash;
+    int isStrafeLHash;
+    int isStrafeRHash;
+    int isJumpIHash;
+    int isJumpRHash;
+
 
 
     Vector3 moveDirection = Vector3.zero;
@@ -57,6 +53,24 @@ public class FPSController : Player
         attacks.Add(4, "Using Shield");
         attacks.Add(5, "Avada Kevadra");
         attacks.Add(6, "Avocado Acabadooo ... c va");
+        //Animaciones
+        animator = GetComponent<Animator>();
+        
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
+        isBackWardHash = Animator.StringToHash("isBackwards");
+        isStrafeLHash = Animator.StringToHash("isStrafeL");
+        isStrafeRHash = Animator.StringToHash("isStrafeR");
+        isJumpIHash = Animator.StringToHash("isJumpIdle");
+        isJumpRHash = Animator.StringToHash("isJumpRun");
+        //booleanos para animator
+        bool isRunning = animator.GetBool(isRunningHash);
+        bool isWalking = animator.GetBool(isWalkingHash);
+        bool isBackward = animator.GetBool(isBackWardHash);
+        bool isStrafeL = animator.GetBool(isStrafeLHash);
+        bool isStrafeR = animator.GetBool(isStrafeRHash);
+        bool isJumpI = animator.GetBool(isJumpIHash);
+        bool isJumpR = animator.GetBool(isJumpRHash);
     }
 
     void Update()
@@ -105,12 +119,12 @@ public class FPSController : Player
                 if (!reloadRun)
                 {
                     sprintTimer -= Time.deltaTime;
-                    OnSprintF.Invoke(true);
+                    Run();
                 }
                 else
                 { 
                     canSprint= false;
-                    OnStopSprint.Invoke(true);
+                    SRun();
                 }
 
             }
@@ -118,7 +132,7 @@ public class FPSController : Player
             {
                 reloadRun = true;
                 canSprint= false;
-                OnStopSprint.Invoke(true);
+                SRun();
             }
         }
         else
@@ -126,7 +140,7 @@ public class FPSController : Player
             if (sprintTimer < 5)
             {
                 sprintTimer += Time.deltaTime;
-                OnStopSprint.Invoke(true);
+                SRun();
             }
             else if (sprintTimer >= 5) 
             {
@@ -147,63 +161,164 @@ public class FPSController : Player
         {
             if (!jumping)
             {
-                OnPFront?.Invoke(true);
+                //OnPFront?.Invoke(true);
+                Walk();
             }
             else
             {
-                OnPFJump?.Invoke(true);
+                SRun();
+                //OnPFJump?.Invoke(true);
+                JumpR();
                 jumping= false;
+                
             }
         }
         else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPFrontL?.Invoke(true);
+            FrontLeft();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPFrontR?.Invoke(true);
+            FrontRight();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
             {
-                OnPBack?.Invoke(true);
+                Back();
+                SRun();
             }
             else
             {
-                OnPBJump?.Invoke(true);
+                //JumpBack();
                 jumping= false;
             }
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPBackL?.Invoke(true);
+            BackLeft();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPBackR?.Invoke(true);
+            BackRight();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPLeft?.Invoke(true);
+            StrafeL();
+            SRun();
+
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPRight?.Invoke(true);
+            StrafeR();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (jumping)
             {
-                OnPJump?.Invoke(true);
+                JumpIdle();
                 jumping= false;
             }
             else
             {
-                OnIdle?.Invoke(true);
+                Idle();
             }
         }
 
+    }
+    private void Walk()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpRHash))
+        {
+            animator.SetBool(isJumpRHash, false);
+        }
+    }
+    private void JumpR()
+    {
+        animator.SetBool(isJumpRHash, true);
+    }
+    private void JumpIdle()
+    {
+        animator.SetBool(isJumpIHash, true);
+    }
+    private void Idle()
+    {
+        animator.SetBool(isRunningHash, false);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpIHash))
+        {
+            animator.SetBool(isJumpIHash, false);
+        }
+        animator.SetBool(isJumpRHash, false);
+    }
+    private void StrafeL()
+    {
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        animator.SetBool(isBackWardHash, false);
+    }
+    private void StrafeR()
+    {
+        animator.SetBool(isStrafeRHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+    }
+    private void Run()
+    {
+        animator.SetBool(isRunningHash, true);
+    }
+    private void SRun()
+    {
+        animator.SetBool(isRunningHash, false);
+    }
+    private void Back()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontLeft()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontRight()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, true);
+    }
+    private void BackLeft()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void BackRight()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, true);
     }
     #endregion
 

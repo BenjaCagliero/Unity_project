@@ -12,7 +12,6 @@ namespace Assets.Scripts.Actors.Controllers
 
         public float GetHealAmount() { return healAmount;}
         public float GetDamageAmount() { return damageAmount;}
-
     }
     
 }

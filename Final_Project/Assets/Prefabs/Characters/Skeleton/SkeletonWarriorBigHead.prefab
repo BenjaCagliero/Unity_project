@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 8459887602111962626}
   - component: {fileID: 816313190863144139}
   - component: {fileID: -2322746700992722555}
+  - component: {fileID: -7389543984816881186}
   m_Layer: 7
   m_Name: SkeletonWarriorBigHead
   m_TagString: Untagged
@@ -257,9 +258,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8bbf8b7b8b5f1144ba263c0e541f0452, type: 3}
   m_Controller: {fileID: 9100000, guid: 26033564346a84e4d80f27270c9f048d, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -308,10 +309,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8953eba78b87946b2ed33d5af58996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviour: 0
+  health: 100
+  maxHealth: 100
   _rb: {fileID: 816313190863144139}
-  target: {fileID: 4979107476036610979, guid: f89a69210ba091c49aa89171de962a74, type: 3}
   speed: 5
+  gameManager: {fileID: 0}
+  behaviour: 3
+  target: {fileID: 0}
   rotationSpeed: 5
   attackDistance: 1
   chaseDistance: 20
@@ -324,6 +328,21 @@ MonoBehaviour:
   floor:
     serializedVersion: 2
     m_Bits: 8
+  heal: 0
+  damage: 0
+--- !u!114 &-7389543984816881186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588168018677385088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93685f393332e454da9bba2174971e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMovingForward: 0
 --- !u!1 &1588168018701787471
 GameObject:
   m_ObjectHideFlags: 0

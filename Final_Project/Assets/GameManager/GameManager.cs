@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public void AddKill()
     {
         killCount ++;
-        hordeKills++;
+        hordeKills ++;
     }
     public void ResetHorde()
     {

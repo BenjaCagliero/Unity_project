@@ -3343,12 +3343,10 @@ MonoBehaviour:
   maxHealth: 100
   _rb: {fileID: 3765115480998842055}
   speed: 5
-  gameManager: {fileID: 0}
   behaviour: 3
   target: {fileID: 0}
-  fPSController: {fileID: 0}
   rotationSpeed: 5
-  attackDistance: 1
+  attackDistance: 2
   chaseDistance: 20
   approachDistance: 60
   idleDistance: 100

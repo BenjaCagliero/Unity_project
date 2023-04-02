@@ -2,11 +2,15 @@ using Assets.Scripts.Actors.Controllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 //[RequireComponent(typeof(CharacterController))]
 public class FPSController : Player
 {
+    [SerializeField]float groundDrag;
+    private bool grounded;
+    private Rigidbody _rb;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
@@ -44,6 +48,7 @@ public class FPSController : Player
     CharacterController characterController;
     void Start()
     {
+        _rb = gameObject.GetComponent<Rigidbody>();
         //characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -75,6 +80,8 @@ public class FPSController : Player
 
     void Update()
     {
+        grounded = Physics.Raycast(transform.position, Vector3.down, 0.2f, floor);
+       
         RotationControl();
         CheckHealth();
         MapHandling();
@@ -122,8 +129,9 @@ public class FPSController : Player
                     Run();
                 }
                 else
-                { 
-                    canSprint= false;
+                {
+                    reloadRun = true;
+                    canSprint = false;
                     SRun();
                 }
 
@@ -149,14 +157,21 @@ public class FPSController : Player
             }
         }
 
-
-        float curSpeedZ = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
+        float curSpeedZ = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, _rb.velocity.y, 0);
         if (curSpeedZ != 0 || curSpeedX != 0)
         {
-            GetComponent<Rigidbody>().velocity = moveDirection;
+            _rb.velocity = moveDirection;
+            if (evadeNow)
+            {
+                _rb.AddForce(transform.forward * 1000, ForceMode.Impulse);
+                _rb.velocity = new Vector3(_rb.velocity.x, -math.abs(_rb.velocity.y), _rb.velocity.z);
+            }
         }
+        #endregion
+
+        #region animation
         if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
@@ -325,9 +340,7 @@ public class FPSController : Player
     #region Handles Jumping
     void JumpControl()
     {
-        RaycastHit hit;
-
-        if (Input.GetButtonDown("Jump") && canMove && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
+        if (Input.GetButtonDown("Jump") && canMove && grounded)
         {
             
             AddJumpForce(jumpPower);

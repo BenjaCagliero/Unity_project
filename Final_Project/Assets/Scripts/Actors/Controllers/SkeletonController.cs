@@ -16,7 +16,6 @@ namespace Assets.Scripts.Actors.Controllers
 {
     public class SkeletonController : Enemy
     {
-        [SerializeField] private GameManager gameManager;
         [SerializeField] private SkeletonBehaviour behaviour;
         [SerializeField] private GameObject target;
         [SerializeField] private float rotationSpeed;
@@ -40,7 +39,7 @@ namespace Assets.Scripts.Actors.Controllers
 
             if (GetHealth() <= 0)
             {
-                AddKill();
+                AddKills();
                 KillEntity();
             }
             CheckHealth();
@@ -124,9 +123,9 @@ namespace Assets.Scripts.Actors.Controllers
         {
 
         }
-        public void AddKill()
+        private void AddKills()
         {
-               gameManager.AddKill();
+               GameManager.instance.AddKill();
         }
     }
 }

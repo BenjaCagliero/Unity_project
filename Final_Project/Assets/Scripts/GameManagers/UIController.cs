@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
 public class UIController : MonoBehaviour
 {
-
+    [SerializeField] private KeyController keyController;
+    [SerializeField] private GateZoneController gateZoneController;
+    private bool m_key = false;
     public Slider HPBar;
     public Slider StaminaBar;
     public Toggle CanDashTg;
+    public Toggle Key;
     private GameManager gameManager;
     [SerializeField] private FPSController fPSController;
 
@@ -22,7 +26,9 @@ public class UIController : MonoBehaviour
         HPBar.value = 100f;
         StaminaBar.value = 100f;
         CanDashTg.isOn = true;
-
+        Key.isOn = false;
+        keyController.onKeyPick += GotKey;
+        gateZoneController.onGateZone += OnZone;
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -51,6 +57,20 @@ public class UIController : MonoBehaviour
             CanDashTg.isOn = false;
         }
 
+    }
+    private void GotKey(bool key)
+    {
+        m_key = key;
+        Key.isOn = true;
+        keyController.onKeyPick -= GotKey;
+    }
+    private void OnZone(bool zone)
+    {
+        if (m_key)
+        {
+            Key.isOn = false;
+            gateZoneController.onGateZone -= OnZone;
+        }
     }
 }
 

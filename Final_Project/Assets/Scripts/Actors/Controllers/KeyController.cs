@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour
 {
-    [SerializeField] GameObject player;
     [SerializeField]private bool delete = false;
     public Action<bool> onKeyPick;
 

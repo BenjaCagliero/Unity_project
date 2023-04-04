@@ -57614,7 +57614,7 @@ PrefabInstance:
     - target: {fileID: 4133031555065107701, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 46.516003
+      value: 46.296
       objectReference: {fileID: 0}
     - target: {fileID: 4133031555065107701, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}
@@ -57683,8 +57683,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4133031555186355680, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}
-      propertyPath: ShoulderOffset.y
+      propertyPath: Damping.y
       value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133031555186355680, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+        type: 3}
+      propertyPath: ShoulderOffset.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4133031555186355680, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}

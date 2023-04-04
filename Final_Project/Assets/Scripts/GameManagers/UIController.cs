@@ -11,12 +11,15 @@ using static System.Net.Mime.MediaTypeNames;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private KeyController keyController;
+    [SerializeField] private WeaponController weaponController;
     [SerializeField] private GateZoneController gateZoneController;
     private bool m_key = false;
+    private bool m_wep = false;
     public Slider HPBar;
     public Slider StaminaBar;
     public Toggle CanDashTg;
     public Toggle Key;
+    public Toggle Weapon;
     private GameManager gameManager;
     [SerializeField] private FPSController fPSController;
     public CanvasRenderer welcomeTxt;
@@ -37,7 +40,9 @@ public class UIController : MonoBehaviour
         StaminaBar.value = 100f;
         CanDashTg.isOn = true;
         Key.isOn = false;
+        Weapon.isOn = false;
         keyController.onKeyPick += GotKey;
+        weaponController.onGrabPick += GotGrab;
         gateZoneController.onGateZone += OnZone;
         gameManager = FindObjectOfType<GameManager>();
         welcomeTxt.SetAlpha(0);
@@ -108,5 +113,15 @@ public class UIController : MonoBehaviour
             gateZoneController.onGateZone -= OnZone;
         }
     }
+    private void GotGrab(bool weapon)
+    {
+        m_wep = weapon;
+        if (m_wep && Input.GetKeyDown(KeyCode.F)) // Verifica si el objeto se recogió y se presionó la tecla F
+        {
+            Weapon.isOn = true; // Establece el valor del Toggle en verdadero
+        }
+        weaponController.onGrabPick -= GotGrab;
+    }
+
 }
 

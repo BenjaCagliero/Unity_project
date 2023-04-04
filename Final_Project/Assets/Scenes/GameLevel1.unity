@@ -321,6 +321,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7145448}
   m_PrefabAsset: {fileID: 0}
+--- !u!222 &8190567 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 5076077363541343523, guid: b2998798ce98963438043fcc419d6c83,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328071982113716406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &11436594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 442534, guid: 6c7e01809ee343847a660faeaa78d718,
@@ -33511,6 +33517,12 @@ Transform:
   m_Father: {fileID: 1819750558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!222 &1296854683 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 6546987672175629317, guid: b2998798ce98963438043fcc419d6c83,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328071982113716406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1298542676
 GameObject:
   m_ObjectHideFlags: 0
@@ -40546,6 +40558,12 @@ Transform:
   m_Father: {fileID: 1131702878}
   m_RootOrder: 189
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!222 &1545424318 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 323516544264176953, guid: b2998798ce98963438043fcc419d6c83,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328071982113716406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1547170971
 GameObject:
   m_ObjectHideFlags: 0
@@ -57287,7 +57305,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6176166436437848041, guid: b2998798ce98963438043fcc419d6c83, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b2998798ce98963438043fcc419d6c83, type: 3}
 --- !u!1001 &1496525465710236472
 PrefabInstance:
@@ -58248,6 +58267,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1788516157}
     - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
+      propertyPath: txTimer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
+      propertyPath: levelDet
+      value: 
+      objectReference: {fileID: 8190567}
+    - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
+      propertyPath: levelTxt
+      value: 
+      objectReference: {fileID: 1296854683}
+    - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
       propertyPath: CanDashTg
       value: 
       objectReference: {fileID: 910704820}
@@ -58255,6 +58286,10 @@ PrefabInstance:
       propertyPath: StaminaBar
       value: 
       objectReference: {fileID: 1644254103}
+    - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
+      propertyPath: welcomeTxt
+      value: 
+      objectReference: {fileID: 1545424318}
     - target: {fileID: 203633476, guid: f89a69210ba091c49aa89171de962a74, type: 3}
       propertyPath: keyController
       value: 

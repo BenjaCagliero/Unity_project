@@ -13634,6 +13634,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 698545400}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &519765569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4133031555186355690, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 4133031555942795101}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &519765574
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519765569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RecenterTarget: 1
+  m_VerticalAxis:
+    Value: 0
+    m_SpeedMode: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.01
+    m_DecelTime: 0.01
+    m_InputAxisName: Mouse Y
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -70
+    m_MaxValue: 70
+    m_Wrap: 0
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
+  m_VerticalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_HorizontalAxis:
+    Value: 0
+    m_SpeedMode: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 0
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
+  m_HorizontalRecentering:
+    m_enabled: 1
+    m_WaitTime: 0
+    m_RecenteringTime: 0
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_ApplyBeforeBody: 0
 --- !u!1001 &519795580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42971,7 +43039,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2245303251712583670}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1640524851
+--- !u!114 &1640524855
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42980,10 +43048,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 1640524846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c41ac9245b87c4192012080077d830, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Damping: 0
+  m_RecenterTarget: 1
+  m_VerticalAxis:
+    Value: 0
+    m_SpeedMode: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.01
+    m_DecelTime: 0.01
+    m_InputAxisName: Mouse Y
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -70
+    m_MaxValue: 70
+    m_Wrap: 0
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
+  m_VerticalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_HorizontalAxis:
+    Value: 0
+    m_SpeedMode: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 0
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
+  m_HorizontalRecentering:
+    m_enabled: 1
+    m_WaitTime: 0
+    m_RecenteringTime: 0
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_ApplyBeforeBody: 0
 --- !u!1 &1640890378
 GameObject:
   m_ObjectHideFlags: 0
@@ -44669,7 +44786,7 @@ Transform:
   - {fileID: 566293228}
   - {fileID: 2093131784}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1711458570
 GameObject:
@@ -57323,7 +57440,7 @@ PrefabInstance:
     - target: {fileID: 1496525465104522913, guid: edaf55ee9c6e33b4ca257a5da1970401,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1496525465104522913, guid: edaf55ee9c6e33b4ca257a5da1970401,
         type: 3}
@@ -57389,6 +57506,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2245303250519355800, guid: ad293fd235d71f345b2480cf039bfce8,
+        type: 3}
+      propertyPath: ShoulderOffset.y
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245303250519355800, guid: ad293fd235d71f345b2480cf039bfce8,
+        type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2245303250874371153, guid: ad293fd235d71f345b2480cf039bfce8,
         type: 3}
       propertyPath: m_Name
@@ -57404,6 +57531,11 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 203633471}
+    - target: {fileID: 2245303250874371166, guid: ad293fd235d71f345b2480cf039bfce8,
+        type: 3}
+      propertyPath: m_Lens.FarClipPlane
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 2245303250874371167, guid: ad293fd235d71f345b2480cf039bfce8,
         type: 3}
       propertyPath: m_RootOrder
@@ -57417,7 +57549,7 @@ PrefabInstance:
     - target: {fileID: 2245303250874371167, guid: ad293fd235d71f345b2480cf039bfce8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 45.746002
+      value: 46.516003
       objectReference: {fileID: 0}
     - target: {fileID: 2245303250874371167, guid: ad293fd235d71f345b2480cf039bfce8,
         type: 3}
@@ -57482,7 +57614,7 @@ PrefabInstance:
     - target: {fileID: 4133031555065107701, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 45.796
+      value: 46.516003
       objectReference: {fileID: 0}
     - target: {fileID: 4133031555065107701, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
         type: 3}
@@ -57539,7 +57671,28 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 203633471}
-    m_RemovedComponents: []
+    - target: {fileID: 4133031555065107706, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+        type: 3}
+      propertyPath: m_Lens.FarClipPlane
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133031555065107707, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+        type: 3}
+      propertyPath: m_FocusTracking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133031555186355680, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+        type: 3}
+      propertyPath: ShoulderOffset.y
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133031555186355680, guid: 81fc18f75a0b3854da3d78cfadafe2fe,
+        type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 25
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4133031555186355681, guid: 81fc18f75a0b3854da3d78cfadafe2fe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 81fc18f75a0b3854da3d78cfadafe2fe, type: 3}
 --- !u!1001 &4216919434906867649
 PrefabInstance:
@@ -58105,6 +58258,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ClearFlags
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561309339878519717, guid: 8cfdf6b076137eb459fcfb6abbc637f1,
+        type: 3}
+      propertyPath: far clip plane
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cfdf6b076137eb459fcfb6abbc637f1, type: 3}

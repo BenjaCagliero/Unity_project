@@ -31,7 +31,7 @@ namespace Assets.Scripts.Actors.Controllers
 
         private void Start()
         {
-            target = GameObject.Find("HumanMale_Character_FREE");
+            target = GameObject.FindGameObjectWithTag("Player");
         }
         void Update()
         {

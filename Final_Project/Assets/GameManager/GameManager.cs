@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     //[Range (0f, 100f)]public float playerHealth = 100f;
     private int killCount;
     private int hordeKills;
-    [SerializeField]private int _score;
-    [SerializeField]private int _dashes;
     private bool ending=false;
     private void Start()
     {
@@ -25,24 +23,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    
-
-
-    public void addScore (int scoreTotal)
-    {
-        _score += scoreTotal;
-    }
-    public void addDash (int dashtotal)
-    {
-        _dashes += dashtotal;
-    }
-
-
     private void Awake()
     {
 
-        _score = 0;
-        _dashes = 0;
 
         if (instance != null)
         {

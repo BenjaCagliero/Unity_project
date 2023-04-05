@@ -3366,7 +3366,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera1: {fileID: 0}
   Camera2: {fileID: 0}
-  Camera3: {fileID: 0}
 --- !u!114 &-50402958248975677
 MonoBehaviour:
   m_ObjectHideFlags: 0

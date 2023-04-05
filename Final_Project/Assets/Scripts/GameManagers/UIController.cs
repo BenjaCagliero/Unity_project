@@ -35,6 +35,8 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         m_time = -2;
         m_duration = txTimer *2;
         HPBar.value = 100f;
@@ -45,7 +47,8 @@ public class UIController : MonoBehaviour
         var scene = SceneManager.GetActiveScene();
         if (SceneManager.GetSceneByBuildIndex(3) != scene)
         {
-            keyController.onKeyPick += GotKey;    
+            keyController.onKeyPick += GotKey;  
+            gateZoneController.onGateZone += OnZone;  
         }
         if(SceneManager.GetSceneByBuildIndex(2) != scene && SceneManager.GetSceneByBuildIndex(3) != scene)
         { 
@@ -56,7 +59,7 @@ public class UIController : MonoBehaviour
             m_wep = true;
             Weapon.isOn = true;
         }
-        gateZoneController.onGateZone += OnZone;
+        
         gameManager = FindObjectOfType<GameManager>();
         welcomeTxt.SetAlpha(0);
         levelTxt.SetAlpha(0);

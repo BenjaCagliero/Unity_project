@@ -10858,7 +10858,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1015
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -58001,6 +58001,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1368136378}
     m_Modifications:
+    - target: {fileID: 5542900777551704044, guid: 80a25b3596c79c3469cefdec12b31546,
+        type: 3}
+      propertyPath: m_EnableTreeColliders
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5542900777551704045, guid: 80a25b3596c79c3469cefdec12b31546,
         type: 3}
       propertyPath: m_Name

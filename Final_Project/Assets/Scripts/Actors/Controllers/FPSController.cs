@@ -11,6 +11,7 @@ public class FPSController : Player
     [SerializeField]float groundDrag;
     private bool grounded;
     private Rigidbody _rb;
+    private float atkTimer=0.2f;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
@@ -254,7 +255,14 @@ public class FPSController : Player
         }
         else
         {
-            animator.SetBool(isAtackingHash, false);
+            if (atkTimer > 0)
+            {
+                animator.SetBool(isAtackingHash, false);
+            }
+            else
+            {
+                atkTimer = 0.2f;
+            }
         }
 
     }

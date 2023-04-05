@@ -3,23 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Enemy
-<<<<<<< HEAD
-  - weaponImpact
-=======
->>>>>>> 374620978c9cd21bfcdc9b45dfe066cde652d840
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Floor
+  - 
   - Water
   - UI
-  - Player
-  - Enemy
-  - PlayerHead
-  - River
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

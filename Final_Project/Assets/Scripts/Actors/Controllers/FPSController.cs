@@ -39,7 +39,9 @@ public class FPSController : Player
     int isStrafeRHash;
     int isJumpIHash;
     int isJumpRHash;
-
+    int isAtackingHash;
+    int isDamagedHash;
+    int isDeadHash;
 
 
     Vector3 moveDirection = Vector3.zero;
@@ -68,6 +70,7 @@ public class FPSController : Player
         isStrafeRHash = Animator.StringToHash("isStrafeR");
         isJumpIHash = Animator.StringToHash("isJumpIdle");
         isJumpRHash = Animator.StringToHash("isJumpRun");
+        isAtackingHash = Animator.StringToHash("isAtacking");
         //booleanos para animator
         bool isRunning = animator.GetBool(isRunningHash);
         bool isWalking = animator.GetBool(isWalkingHash);
@@ -76,6 +79,7 @@ public class FPSController : Player
         bool isStrafeR = animator.GetBool(isStrafeRHash);
         bool isJumpI = animator.GetBool(isJumpIHash);
         bool isJumpR = animator.GetBool(isJumpRHash);
+        bool isAtacking = animator.GetBool(isAtackingHash);
     }
 
     void Update()
@@ -243,6 +247,14 @@ public class FPSController : Player
             {
                 Idle();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.SetBool(isAtackingHash, true);
+        }
+        else
+        {
+            animator.SetBool(isAtackingHash, false);
         }
 
     }

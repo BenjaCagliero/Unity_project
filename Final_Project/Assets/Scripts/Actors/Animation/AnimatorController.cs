@@ -15,13 +15,9 @@ public class AnimatorController : MonoBehaviour
     int isJumpRHash;
     public FPSController m_fPSController;
 
-    
-
-
     void Start()
     {
         animator= GetComponent<Animator>();
-        //Debug.Log(animator);
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
         isBackWardHash = Animator.StringToHash("isBackwards");
@@ -29,6 +25,7 @@ public class AnimatorController : MonoBehaviour
         isStrafeRHash = Animator.StringToHash("isStrafeR");
         isJumpIHash = Animator.StringToHash("isJumpIdle");
         isJumpRHash = Animator.StringToHash("isJumpRun");
+
         //booleanos para animator
         bool isRunning = animator.GetBool(isRunningHash);
         bool isWalking = animator.GetBool(isWalkingHash);
@@ -37,20 +34,7 @@ public class AnimatorController : MonoBehaviour
         bool isStrafeR = animator.GetBool(isStrafeRHash);
         bool isJumpI = animator.GetBool(isJumpIHash);
         bool isJumpR = animator.GetBool(isJumpRHash);
-        
-        //m_fPSController.OnIdle += Idle;
-        //m_fPSController.OnPFront += Walk;
-        //m_fPSController.OnPFrontL += FrontLeft;
-        //m_fPSController.OnPFrontR+= FrontRight;
-        //m_fPSController.OnPBack += Back;
-        //m_fPSController.OnPLeft += StrafeL;
-        //m_fPSController.OnPRight += StrafeR;
-        //m_fPSController.OnPFJump += JumpR;
-        //m_fPSController.OnPJump += JumpIdle;
-        //m_fPSController.OnSprintF += Run;
-        //m_fPSController.OnStopSprint += SRun;
-        //m_fPSController.OnPBackL += BackLeft;
-        //m_fPSController.OnPBackR += BackRight;
+   
     }
 
 
@@ -159,5 +143,8 @@ public class AnimatorController : MonoBehaviour
         }
         animator.SetBool(isJumpRHash, false);
     }
-
+    //private void AttackingOneHanded()
+    //  if (animator.GetBool(isAttackingOneHanded))
+      //  animator.SetBool(isAttackingOneHanded, true);
+    //}
 }

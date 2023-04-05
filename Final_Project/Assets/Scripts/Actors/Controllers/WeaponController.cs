@@ -8,9 +8,6 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private bool delete = false;
     public Action<bool> onGrabPick;
 
-    private bool input;
-
-
     private void Update()
     {
         if (delete && Input.GetKeyDown(KeyCode.F))

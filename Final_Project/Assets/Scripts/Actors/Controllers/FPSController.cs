@@ -434,7 +434,6 @@ public class FPSController : Player
             {
                 text = attacks[6].ToUpper();
                 Debug.Log(text);
-                GameManager.instance.addDash(evadePoints);
                 evadeNow = true;
             }
             

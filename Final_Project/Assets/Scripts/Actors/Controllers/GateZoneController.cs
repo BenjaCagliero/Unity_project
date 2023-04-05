@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GateZoneController : MonoBehaviour
 {
@@ -12,7 +13,11 @@ public class GateZoneController : MonoBehaviour
     void Start()
     {
         _key= false;
-        keyController.onKeyPick += GotKey;
+        var scene = SceneManager.GetActiveScene();
+        if (SceneManager.GetSceneByBuildIndex(3) != scene)
+        {
+            keyController.onKeyPick += GotKey;
+        }
     }
 
     void OnTriggerEnter(Collider other)

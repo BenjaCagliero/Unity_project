@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,9 +13,15 @@ public class GameManager : MonoBehaviour
     private int hordeKills;
     [SerializeField]private int _score;
     [SerializeField]private int _dashes;
+    private bool ending=false;
     private void Start()
     {
         killCount= 0;
+        var scene = SceneManager.GetActiveScene();
+        if (SceneManager.GetSceneByBuildIndex(3) == scene)
+        {
+            ending=true;
+        }
     }
 
 

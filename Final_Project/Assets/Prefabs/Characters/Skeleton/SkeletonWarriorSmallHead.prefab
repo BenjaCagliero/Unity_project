@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: -8315192045606833338}
   m_Layer: 7
   m_Name: SkeletonWarriorSmallHead
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,16 +309,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8953eba78b87946b2ed33d5af58996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 70
+  maxHealth: 70
   _rb: {fileID: 816313190863144139}
-  speed: 5
+  speed: 7
   behaviour: 3
   target: {fileID: 0}
   rotationSpeed: 5
   attackDistance: 2
   chaseDistance: 20
-  approachDistance: 60
+  approachDistance: 40
   idleDistance: 100
   distanceToTarget: 0
   player:

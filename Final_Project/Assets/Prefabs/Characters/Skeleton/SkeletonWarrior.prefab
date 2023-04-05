@@ -3354,7 +3354,7 @@ GameObject:
   - component: {fileID: 2327704903453438305}
   m_Layer: 7
   m_Name: SkeletonWarrior
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3447,7 +3447,7 @@ MonoBehaviour:
   rotationSpeed: 5
   attackDistance: 2
   chaseDistance: 20
-  approachDistance: 60
+  approachDistance: 40
   idleDistance: 100
   distanceToTarget: 1
   player:

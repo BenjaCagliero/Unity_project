@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GateController : MonoBehaviour
 {
@@ -10,14 +11,26 @@ public class GateController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        keyController.onKeyPick += GotKey;
+        var scene = SceneManager.GetActiveScene();
+        if (SceneManager.GetSceneByBuildIndex(3) != scene)
+        {
+            keyController.onKeyPick += GotKey;
+        }
         gateZoneController.onGateZone += OnZone;
     }
 
     // Update is called once per frame
     private void GotKey(bool key)
     {
-        m_key= key;
+        var scene = SceneManager.GetActiveScene();
+        if (SceneManager.GetSceneByBuildIndex(3) != scene)
+        {
+            m_key = key;
+        }
+        else
+        {
+            m_key = true;
+        }
     }
     private void OnZone(bool zone)
     {

@@ -8,10 +8,16 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private bool delete = false;
     public Action<bool> onGrabPick;
 
+    private bool input;
+
+
     private void Update()
     {
         if (delete && Input.GetKeyDown(KeyCode.F))
+        {
+            onGrabPick?.Invoke(true);
             DeleteGrab();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -19,8 +25,7 @@ public class WeaponController : MonoBehaviour
         var _name = other.transform.parent.tag;
         if (_name == "Player")
         {
-            onGrabPick?.Invoke(true);
-            delete = true;
+                delete = true;
         }
     }
 

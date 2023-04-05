@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -41,8 +42,20 @@ public class UIController : MonoBehaviour
         CanDashTg.isOn = true;
         Key.isOn = false;
         Weapon.isOn = false;
-        keyController.onKeyPick += GotKey;
-        weaponController.onGrabPick += GotGrab;
+        var scene = SceneManager.GetActiveScene();
+        if (SceneManager.GetSceneByBuildIndex(3) != scene)
+        {
+            keyController.onKeyPick += GotKey;    
+        }
+        if(SceneManager.GetSceneByBuildIndex(2) != scene && SceneManager.GetSceneByBuildIndex(3) != scene)
+        { 
+            weaponController.onGrabPick += GotGrab;
+        }
+        else
+        {
+            m_wep = true;
+            Weapon.isOn = true;
+        }
         gateZoneController.onGateZone += OnZone;
         gameManager = FindObjectOfType<GameManager>();
         welcomeTxt.SetAlpha(0);
@@ -60,6 +73,7 @@ public class UIController : MonoBehaviour
         fade(txTimer, welcomeTxt);
         fade(txTimer, levelTxt);
         fade(txTimer, levelDet);
+        Weapon.isOn = m_wep; 
     }
 
     void Stamina()
@@ -115,12 +129,9 @@ public class UIController : MonoBehaviour
     }
     private void GotGrab(bool weapon)
     {
-        m_wep = weapon;
-        if (m_wep && Input.GetKeyDown(KeyCode.F)) // Verifica si el objeto se recogió y se presionó la tecla F
-        {
-            Weapon.isOn = true; // Establece el valor del Toggle en verdadero
-        }
-        weaponController.onGrabPick -= GotGrab;
+            m_wep = weapon;
+            Weapon.isOn = true;
+            weaponController.onGrabPick -= GotGrab;
     }
 
 }

@@ -8,32 +8,21 @@ public class LogicaDaño : MonoBehaviour
     public int dañoArma;
     public int dañoPuño;
     public Animator anim;
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnted(Collider other)
     {
-        if (other.gameObject.tag == "weaponImpact")
+        if (other.tag == "weaponImpact")
         {
             if (anim != null)
             {
-                anim.Play("Enemigo");
+                anim.Play("isHit");
             }
 
             hp -= dañoArma;
         }
 
-        if (other.gameObject.tag == "impact")
-        {
-            if (anim != null)
-            {
-                anim.Play("Enemigo");
-            }
-
-            hp -= dañoPuño;
-        }
-
         if (hp <= 0)
         {
-            //TODO: Que hacer cuando le quite el hp
-            anim.Play("Death");
+            anim.Play("takeDamage");
         }
     }
 

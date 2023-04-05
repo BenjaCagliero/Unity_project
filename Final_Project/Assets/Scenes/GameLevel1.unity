@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.52011657, g: 0.42873645, b: 0.14086683, a: 1}
+  m_IndirectSpecularColor: {r: 0.5202917, g: 0.4288624, b: 0.14071584, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -59900,6 +59900,16 @@ PrefabInstance:
       propertyPath: gateZoneController
       value: 
       objectReference: {fileID: 1582379107}
+    - target: {fileID: 1915083085128035507, guid: f89a69210ba091c49aa89171de962a74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915083085128035507, guid: f89a69210ba091c49aa89171de962a74,
+        type: 3}
+      propertyPath: m_TagString
+      value: weaponImpact
+      objectReference: {fileID: 0}
     - target: {fileID: 4979107476036610979, guid: f89a69210ba091c49aa89171de962a74,
         type: 3}
       propertyPath: m_Name

@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private KeyController keyController;
     [SerializeField] private WeaponController weaponController;
     [SerializeField] private GateZoneController gateZoneController;
+    [SerializeField] private GameObject sword;
     private bool m_key = false;
     private bool m_wep = false;
     public Slider HPBar;
@@ -134,6 +135,7 @@ public class UIController : MonoBehaviour
     {
             m_wep = weapon;
             Weapon.isOn = true;
+            sword.gameObject.SetActive(weapon);
             weaponController.onGrabPick -= GotGrab;
     }
 

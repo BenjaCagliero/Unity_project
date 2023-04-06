@@ -2,11 +2,16 @@ using Assets.Scripts.Actors.Controllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 //[RequireComponent(typeof(CharacterController))]
 public class FPSController : Player
 {
+    [SerializeField]float groundDrag;
+    private bool grounded;
+    private Rigidbody _rb;
+    private float atkTimer=0.2f;
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpPower = 7f;
@@ -26,20 +31,18 @@ public class FPSController : Player
     [SerializeField] private Dictionary<int,string> attacks = new Dictionary<int, string>();
     private bool jumping;
     private bool reloadRun;
-    public event Action<bool> OnPFront;
-    public event Action<bool> OnPFrontR;
-    public event Action<bool> OnPFrontL;
-    public event Action<bool> OnPBack;
-    public event Action<bool> OnPBackR;
-    public event Action<bool> OnPBackL;
-    public event Action<bool> OnPRight;
-    public event Action<bool> OnPLeft;
-    public event Action<bool> OnPFJump;
-    public event Action<bool> OnPBJump; 
-    public event Action<bool> OnPJump; 
-    public event Action<bool> OnIdle; 
-    public event Action<bool> OnSprintF;
-    public event Action<bool> OnStopSprint;
+    //Animaciones
+    Animator animator;
+    int isWalkingHash;
+    int isRunningHash;
+    int isBackWardHash;
+    int isStrafeLHash;
+    int isStrafeRHash;
+    int isJumpIHash;
+    int isJumpRHash;
+    int isAtackingHash;
+    int isDamagedHash;
+    int isDeadHash;
 
 
     Vector3 moveDirection = Vector3.zero;
@@ -48,6 +51,7 @@ public class FPSController : Player
     CharacterController characterController;
     void Start()
     {
+        _rb = gameObject.GetComponent<Rigidbody>();
         //characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -57,10 +61,32 @@ public class FPSController : Player
         attacks.Add(4, "Using Shield");
         attacks.Add(5, "Avada Kevadra");
         attacks.Add(6, "Avocado Acabadooo ... c va");
+        //Animaciones
+        animator = GetComponent<Animator>();
+        
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
+        isBackWardHash = Animator.StringToHash("isBackwards");
+        isStrafeLHash = Animator.StringToHash("isStrafeL");
+        isStrafeRHash = Animator.StringToHash("isStrafeR");
+        isJumpIHash = Animator.StringToHash("isJumpIdle");
+        isJumpRHash = Animator.StringToHash("isJumpRun");
+        isAtackingHash = Animator.StringToHash("isAtacking");
+        //booleanos para animator
+        bool isRunning = animator.GetBool(isRunningHash);
+        bool isWalking = animator.GetBool(isWalkingHash);
+        bool isBackward = animator.GetBool(isBackWardHash);
+        bool isStrafeL = animator.GetBool(isStrafeLHash);
+        bool isStrafeR = animator.GetBool(isStrafeRHash);
+        bool isJumpI = animator.GetBool(isJumpIHash);
+        bool isJumpR = animator.GetBool(isJumpRHash);
+        bool isAtacking = animator.GetBool(isAtackingHash);
     }
 
     void Update()
     {
+        grounded = Physics.Raycast(transform.position, Vector3.down, 0.2f, floor);
+       
         RotationControl();
         CheckHealth();
         MapHandling();
@@ -105,12 +131,13 @@ public class FPSController : Player
                 if (!reloadRun)
                 {
                     sprintTimer -= Time.deltaTime;
-                    OnSprintF.Invoke(true);
+                    Run();
                 }
                 else
-                { 
-                    canSprint= false;
-                    OnStopSprint.Invoke(true);
+                {
+                    reloadRun = true;
+                    canSprint = false;
+                    SRun();
                 }
 
             }
@@ -118,7 +145,7 @@ public class FPSController : Player
             {
                 reloadRun = true;
                 canSprint= false;
-                OnStopSprint.Invoke(true);
+                SRun();
             }
         }
         else
@@ -126,7 +153,7 @@ public class FPSController : Player
             if (sprintTimer < 5)
             {
                 sprintTimer += Time.deltaTime;
-                OnStopSprint.Invoke(true);
+                SRun();
             }
             else if (sprintTimer >= 5) 
             {
@@ -135,84 +162,205 @@ public class FPSController : Player
             }
         }
 
-
-        float curSpeedZ = canMove ? (!evadeNow ? ((isRunning && canSprint) ? runSpeed : walkSpeed) : runSpeed * 5) * Input.GetAxis("Vertical") : 0;
+        float curSpeedZ = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedX = canMove ? ((isRunning && canSprint) ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+        moveDirection = (forward * curSpeedZ) + (right * curSpeedX) + new Vector3(0, _rb.velocity.y, 0);
         if (curSpeedZ != 0 || curSpeedX != 0)
         {
-            GetComponent<Rigidbody>().velocity = moveDirection;
+            _rb.velocity = moveDirection;
+            if (evadeNow)
+            {
+                _rb.AddForce(transform.forward * 1000, ForceMode.Impulse);
+                _rb.velocity = new Vector3(_rb.velocity.x, -math.abs(_rb.velocity.y), _rb.velocity.z);
+            }
         }
+        #endregion
+
+        #region animation
         if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
             {
-                OnPFront?.Invoke(true);
+                //OnPFront?.Invoke(true);
+                Walk();
             }
             else
             {
-                OnPFJump?.Invoke(true);
+                SRun();
+                //OnPFJump?.Invoke(true);
+                JumpR();
                 jumping= false;
+                
             }
         }
         else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPFrontL?.Invoke(true);
+            FrontLeft();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPFrontR?.Invoke(true);
+            FrontRight();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (!jumping)
             {
-                OnPBack?.Invoke(true);
+                Back();
+                SRun();
             }
             else
             {
-                OnPBJump?.Invoke(true);
+                //JumpBack();
                 jumping= false;
             }
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPBackL?.Invoke(true);
+            BackLeft();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPBackR?.Invoke(true);
+            BackRight();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") < 0)
         {
-            OnPLeft?.Invoke(true);
+            StrafeL();
+            SRun();
+
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") > 0)
         {
-            OnPRight?.Invoke(true);
+            StrafeR();
+            SRun();
         }
         else if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
         {
             if (jumping)
             {
-                OnPJump?.Invoke(true);
+                JumpIdle();
                 jumping= false;
             }
             else
             {
-                OnIdle?.Invoke(true);
+                Idle();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.SetBool(isAtackingHash, true);
+        }
+        else
+        {
+            if (atkTimer > 0)
+            {
+                animator.SetBool(isAtackingHash, false);
+            }
+            else
+            {
+                atkTimer = 0.2f;
             }
         }
 
+    }
+    private void Walk()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpRHash))
+        {
+            animator.SetBool(isJumpRHash, false);
+        }
+    }
+    private void JumpR()
+    {
+        animator.SetBool(isJumpRHash, true);
+    }
+    private void JumpIdle()
+    {
+        animator.SetBool(isJumpIHash, true);
+    }
+    private void Idle()
+    {
+        animator.SetBool(isRunningHash, false);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        if (animator.GetBool(isJumpIHash))
+        {
+            animator.SetBool(isJumpIHash, false);
+        }
+        animator.SetBool(isJumpRHash, false);
+    }
+    private void StrafeL()
+    {
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeRHash, false);
+        animator.SetBool(isBackWardHash, false);
+    }
+    private void StrafeR()
+    {
+        animator.SetBool(isStrafeRHash, true);
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+    }
+    private void Run()
+    {
+        animator.SetBool(isRunningHash, true);
+    }
+    private void SRun()
+    {
+        animator.SetBool(isRunningHash, false);
+    }
+    private void Back()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontLeft()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void FrontRight()
+    {
+        animator.SetBool(isWalkingHash, true);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, false);
+        animator.SetBool(isStrafeRHash, true);
+    }
+    private void BackLeft()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, true);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, false);
+    }
+    private void BackRight()
+    {
+        animator.SetBool(isWalkingHash, false);
+        animator.SetBool(isStrafeLHash, false);
+        animator.SetBool(isBackWardHash, true);
+        animator.SetBool(isStrafeRHash, true);
     }
     #endregion
 
     #region Handles Jumping
     void JumpControl()
     {
-        RaycastHit hit;
-
-        if (Input.GetButtonDown("Jump") && canMove && Physics.Raycast(transform.position,-transform.up, out hit, 0.2f, floor))
+        if (Input.GetButtonDown("Jump") && canMove && grounded)
         {
             
             AddJumpForce(jumpPower);
@@ -306,7 +454,6 @@ public class FPSController : Player
             {
                 text = attacks[6].ToUpper();
                 Debug.Log(text);
-                GameManager.instance.addDash(evadePoints);
                 evadeNow = true;
             }
             

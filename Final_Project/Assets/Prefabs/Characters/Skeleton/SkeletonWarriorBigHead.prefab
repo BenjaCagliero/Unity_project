@@ -222,9 +222,10 @@ GameObject:
   - component: {fileID: 8459887602111962626}
   - component: {fileID: 816313190863144139}
   - component: {fileID: -2322746700992722555}
+  - component: {fileID: -7389543984816881186}
   m_Layer: 7
   m_Name: SkeletonWarriorBigHead
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -257,9 +258,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8bbf8b7b8b5f1144ba263c0e541f0452, type: 3}
   m_Controller: {fileID: 9100000, guid: 26033564346a84e4d80f27270c9f048d, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -308,14 +309,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8953eba78b87946b2ed33d5af58996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviour: 0
+  health: 300
+  maxHealth: 300
   _rb: {fileID: 816313190863144139}
-  target: {fileID: 4979107476036610979, guid: f89a69210ba091c49aa89171de962a74, type: 3}
-  speed: 5
+  speed: 4
+  behaviour: 3
+  target: {fileID: 0}
   rotationSpeed: 5
-  attackDistance: 1
+  attackDistance: 2
   chaseDistance: 20
-  approachDistance: 60
+  approachDistance: 40
   idleDistance: 100
   distanceToTarget: 0
   player:
@@ -324,6 +327,21 @@ MonoBehaviour:
   floor:
     serializedVersion: 2
     m_Bits: 8
+  heal: 0
+  damage: 0
+--- !u!114 &-7389543984816881186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588168018677385088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93685f393332e454da9bba2174971e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMovingForward: 0
 --- !u!1 &1588168018701787471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,7 +1837,7 @@ Transform:
   m_GameObject: {fileID: 1588168019652157933}
   m_LocalRotation: {x: 2.6144228e-17, y: -1.2653212e-16, z: -0.1335421, w: 0.99104315}
   m_LocalPosition: {x: -0.09283613, y: 0.0036415686, z: 4.781569e-18}
-  m_LocalScale: {x: 1.601, y: 1.601, z: 1.601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1588168018643576948}

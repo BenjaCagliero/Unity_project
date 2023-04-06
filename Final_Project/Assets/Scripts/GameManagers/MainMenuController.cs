@@ -28,7 +28,7 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitApplication()
     {
-        //Application.Quit();
+        Application.Quit();
         Debug.Break();
     }
 }

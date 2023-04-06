@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpawnerController : MonoBehaviour
 {
-
     [SerializeField] private Transform[] m_Positions;
     [SerializeField] public List<GameObject> m_Spawneables;
 
@@ -15,7 +14,6 @@ public class SpawnerController : MonoBehaviour
             Spawn(i);
         } 
     }
-
     private void Spawn(int i)
     {
         int l_type = Random.Range(0, m_Positions.Length) ;

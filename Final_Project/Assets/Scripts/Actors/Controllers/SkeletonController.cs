@@ -1,4 +1,5 @@
 using Assets.Scripts.Actors.Controllers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,26 +28,32 @@ namespace Assets.Scripts.Actors.Controllers
         [SerializeField] private LayerMask floor;
         public bool heal;
         public bool damage;
+
+        private void Start()
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
         void Update()
         {
 
 
             if (GetHealth() <= 0)
             {
+                AddKills();
                 KillEntity();
             }
             CheckHealth();
 
-        if(heal)
-            {
-                Heal(15);
-                heal = false;
-            }
-        if (damage)
-            {
-                Damage(20);
-                damage = false;
-            }
+            if(heal)
+                {
+                    Heal(15);
+                    heal = false;
+                }
+            if (damage)
+                {
+                    Damage(20);
+                    damage = false;
+                }
 
 
             var vectorToTarget = target.transform.position - transform.position;
@@ -115,6 +122,10 @@ namespace Assets.Scripts.Actors.Controllers
         void Idle()
         {
 
+        }
+        private void AddKills()
+        {
+               GameManager.instance.AddKill();
         }
     }
 }

@@ -3330,7 +3330,8 @@ MonoBehaviour:
   maxHealth: 100
   healAmount: 15
   damageAmount: 5
-  walkSpeed: 6
+  groundDrag: 3.62
+  walkSpeed: 1.44
   runSpeed: 10
   jumpPower: 5
   haveMap: 0
@@ -3375,7 +3376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4043865ca8bab54bb3a9f52d0b2f755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiController: {fileID: 0}
   m_fPSController: {fileID: 6747581522127704499}
 --- !u!54 &203633466
 Rigidbody:
